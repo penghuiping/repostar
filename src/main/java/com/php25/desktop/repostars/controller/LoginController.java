@@ -1,14 +1,14 @@
 package com.php25.desktop.repostars.controller;
 
+import com.php25.desktop.repostars.util.GlobalUtil;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class LoginController  {
+public class LoginController {
 
     @Autowired
     private ConfigurableApplicationContext applicationContext;
@@ -31,11 +31,13 @@ public class LoginController  {
             btn.setText("你好");
             btn.setOnMouseClicked(mouseEvent -> {
                 log.info("clicked");
-                G
+                Stage stage = GlobalUtil.getCurrentStage(mouseEvent);
+                Parent load = GlobalUtil.loadFxml("nav_controller.fxml", applicationContext);
+                stage.setScene(new Scene(load, 800, 600));
+                stage.show();
             });
-        }catch (Exception e) {
-            throw new RuntimeException("出错啦",e);
+        } catch (Exception e) {
+            throw new RuntimeException("出错啦", e);
         }
-
     }
 }

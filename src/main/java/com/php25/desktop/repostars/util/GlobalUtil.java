@@ -1,7 +1,10 @@
 package com.php25.desktop.repostars.util;
 
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
@@ -19,6 +22,10 @@ public class GlobalUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Stage getCurrentStage(Event event) {
+        return  (Stage) ((Node) event.getSource()).getScene().getWindow();
     }
 
 }
