@@ -3,8 +3,7 @@ package com.php25.desktop.repostars.github;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.php25.common.core.exception.Exceptions;
 import com.php25.common.core.util.JsonUtil;
-import com.php25.desktop.repostars.github.dto.Gist;
-import lombok.extern.slf4j.Slf4j;
+import com.php25.desktop.repostars.github.dto.Repos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,27 +16,26 @@ import java.util.List;
 
 /**
  * @author penghuiping
- * @date 2020/9/22 16:34
+ * @date 2020/9/23 13:36
  */
 @Service
-@Slf4j
-public class GistManagerImpl implements GistManager {
+public class ReposManagerImpl implements ReposManager {
 
     @Autowired
     private HttpClient httpClient;
 
     @Override
-    public List<Gist> getAllStarredGist(String username, Integer pageNum, Integer pageSize) {
+    public List<Repos> getReposList(String token) {
         try {
-            var uri = new URI(String.format(Constants.LIST_STARRED_GISTS + "?page%d&&per_page=%d", username, pageNum, pageSize));
-            var request = HttpRequest.newBuilder(uri).GET().build();
+            var uri = new URI(Constants.LIST_USER_REPOS);
+            var request = HttpRequest.newBuilder().uri(uri).GET()
+                    .header("Authorization", String.format("token %s", token))
+                    .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            return JsonUtil.fromJson(response.body(), new TypeReference<List<Gist>>() {
+            return JsonUtil.fromJson(response.body(), new TypeReference<List<Repos>>() {
             });
         } catch (Exception e) {
-            throw Exceptions.throwIllegalStateException("获取starred项目列表失败", e);
+            throw Exceptions.throwIllegalStateException("获取个人仓库项目列表失败", e);
         }
     }
-
-
 }
