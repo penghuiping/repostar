@@ -27,5 +27,4 @@ public abstract class GlobalUtil {
     public static Stage getCurrentStage(Event event) {
         return (Stage) ((Node) event.getSource()).getScene().getWindow();
     }
-
 }

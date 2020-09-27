@@ -1,13 +1,21 @@
 package com.php25.desktop.repostars.controller;
 
+import com.php25.common.core.exception.Exceptions;
+import com.php25.common.core.util.StringUtil;
+import com.php25.desktop.repostars.constant.AppError;
+import com.php25.desktop.repostars.github.UserManager;
+import com.php25.desktop.repostars.github.dto.User;
+import com.php25.desktop.repostars.util.GlobalUtil;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +25,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class LoginController {
+public class LoginController extends BaseController {
 
     @FXML
     public Button loginBtn;
@@ -30,26 +38,34 @@ public class LoginController {
     @FXML
     public ImageView logo;
 
+
     @Autowired
-    private ConfigurableApplicationContext applicationContext;
+    private UserManager userManager;
 
-
-    @FXML
+    @Override
     public void initialize() {
         try {
             logo.setImage(new Image(new ClassPathResource("img/github_logo.png").getInputStream()));
-//            btn.setText("你好");
-//            btn.setOnMouseClicked(mouseEvent -> {
-//                log.info("clicked");
-//                Stage stage = GlobalUtil.getCurrentStage(mouseEvent);
-//                Scene previousScene = stage.getScene();
-//                log.info("previousScene:{}", previousScene);
-//                Parent load = GlobalUtil.loadFxml("nav_controller.fxml", applicationContext);
-//                stage.setScene(new Scene(load, 800, 600));
-//                stage.show();
-//                Scene latestScene = stage.getScene();
-//                log.info("latestScene:{}", latestScene);
-//            });
+            resetBtn.setOnMouseClicked(mouseEvent -> {
+                usernameTextField.setText("");
+                tokenTextField.setText("");
+                usernameTextField.requestFocus();
+            });
+            loginBtn.setOnMouseClicked(mouseEvent -> {
+                String token = tokenTextField.getText();
+                if (StringUtil.isBlank(token)) {
+                    throw Exceptions.throwBusinessException(AppError.LOGIN_ERROR);
+                }
+                User user = userManager.getUserInfo(token);
+                if (user != null) {
+                    Stage stage = GlobalUtil.getCurrentStage(mouseEvent);
+                    Scene previousScene = stage.getScene();
+                    Parent load = GlobalUtil.loadFxml("nav_controller.fxml", this.applicationContext);
+                    stage.setScene(new Scene(load, 800, 600));
+                    stage.show();
+                }
+                throw Exceptions.throwBusinessException(AppError.LOGIN_ERROR);
+            });
         } catch (Exception e) {
             throw new RuntimeException("出错啦", e);
         }

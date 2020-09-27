@@ -1,6 +1,5 @@
 package com.php25.desktop.repostars.controller;
 
-import javafx.fxml.FXML;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,9 +8,9 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class NavController {
+public class NavController extends BaseController {
 
-    @FXML
+    @Override
     public void initialize() {
 
     }

@@ -29,20 +29,21 @@
             </rowConstraints>
             <children>
                 <Text wrappingWidth="90">用户名</Text>
-                <TextField alignment="BOTTOM_CENTER" GridPane.columnIndex="1">
+                <TextField alignment="BOTTOM_CENTER" GridPane.columnIndex="1" fx:id="usernameTextField">
                 </TextField>
                 <Text wrappingWidth="90" GridPane.rowIndex="1">令牌</Text>
-                <TextField alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <TextField alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                           fx:id="tokenTextField"/>
             </children>
         </GridPane>
         <HBox alignment="CENTER" prefHeight="56.0" prefWidth="800.0">
             <children>
-                <Button fx:id="btn" mnemonicParsing="false" text="登入" textAlignment="CENTER">
+                <Button fx:id="loginBtn" mnemonicParsing="false" text="登入" textAlignment="CENTER">
                     <HBox.margin>
                         <Insets right="10.0"/>
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" text="重置"/>
+                <Button fx:id="resetBtn" mnemonicParsing="false" text="重置"/>
             </children>
         </HBox>
     </children>
