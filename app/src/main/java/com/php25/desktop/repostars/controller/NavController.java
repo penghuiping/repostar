@@ -1,5 +1,6 @@
 package com.php25.desktop.repostars.controller;
 
+import javafx.scene.input.MouseEvent;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,7 +12,12 @@ import org.springframework.stereotype.Component;
 public class NavController extends BaseController {
 
     @Override
-    public void initialize() {
+    public void start() throws Exception {
+
+    }
+
+    @Override
+    public void handleMouseEvent(MouseEvent mouseEvent) throws Exception {
 
     }
 }

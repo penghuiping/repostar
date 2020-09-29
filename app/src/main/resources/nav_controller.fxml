@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      prefHeight="400.0" prefWidth="600.0">
-    <Text>测试</Text>
+      fx:controller="com.php25.desktop.repostars.controller.NavController"
+      prefHeight="600" prefWidth="800">
+    <HBox padding="10">
+        <Text>测试</Text>
+    </HBox>
 </VBox>

@@ -1,5 +1,9 @@
 package com.php25.desktop.repostars.controller;
 
+import com.php25.common.core.exception.BusinessException;
+import com.php25.desktop.repostars.util.GlobalUtil;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -9,7 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @date 2020/9/27 11:09
  */
 @Slf4j
-public abstract class BaseController {
+public abstract class BaseController implements EventHandler<MouseEvent> {
 
     @Autowired
     protected ConfigurableApplicationContext applicationContext;
@@ -17,5 +21,30 @@ public abstract class BaseController {
     /**
      * 用于初始化
      */
-    public abstract void initialize();
+    public final void initialize() {
+        try {
+            this.start();
+        } catch (BusinessException e) {
+            GlobalUtil.showErrorMsg(e.getMessage());
+        } catch (Exception e) {
+            log.error("出错啦", e);
+        }
+    }
+
+    @Override
+    public final void handle(MouseEvent mouseEvent) {
+        try {
+            this.handleMouseEvent(mouseEvent);
+        } catch (BusinessException | IllegalArgumentException e) {
+            GlobalUtil.showErrorMsg(e.getMessage());
+        } catch (Exception e) {
+            log.error("出错啦", e);
+        }
+    }
+
+    public abstract void start() throws Exception;
+
+    public void handleMouseEvent(MouseEvent mouseEvent) throws Exception {
+
+    }
 }
