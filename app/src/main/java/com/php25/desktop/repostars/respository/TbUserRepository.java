@@ -8,4 +8,6 @@ import com.php25.desktop.repostars.respository.entity.TbUser;
  * @date 2020/9/23 14:37
  */
 public interface TbUserRepository extends BaseDbRepository<TbUser, Long> {
+
+    TbUser findByLoginName(String loginName);
 }

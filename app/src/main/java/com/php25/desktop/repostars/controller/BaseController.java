@@ -24,7 +24,7 @@ public abstract class BaseController implements EventHandler<MouseEvent> {
     public final void initialize() {
         try {
             this.start();
-        } catch (BusinessException e) {
+        } catch (BusinessException | IllegalArgumentException e) {
             GlobalUtil.showErrorMsg(e.getMessage());
         } catch (Exception e) {
             log.error("出错啦", e);

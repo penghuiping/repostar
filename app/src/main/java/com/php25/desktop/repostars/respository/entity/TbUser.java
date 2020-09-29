@@ -36,8 +36,10 @@ public class TbUser implements Persistable<Long> {
 
     private String email;
 
+    @Column("create_time")
     private LocalDateTime createTime;
 
+    @Column("last_modified_time")
     private LocalDateTime lastModifiedTime;
 
     private Integer enable;
