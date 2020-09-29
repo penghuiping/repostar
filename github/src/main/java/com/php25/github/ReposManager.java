@@ -1,6 +1,6 @@
-package com.php25.desktop.repostars.github;
+package com.php25.github;
 
-import com.php25.desktop.repostars.github.dto.Repos;
+import com.php25.github.dto.Repos;
 
 import java.util.List;
 

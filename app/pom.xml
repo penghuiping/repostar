@@ -13,7 +13,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>app</name>
 
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -53,12 +52,17 @@
         </dependency>
         <dependency>
             <groupId>com.php25</groupId>
+            <artifactId>github</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.php25</groupId>
             <artifactId>core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.php25</groupId>
             <artifactId>db</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

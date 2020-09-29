@@ -14,14 +14,6 @@ public abstract class BaseController {
     @Autowired
     protected ConfigurableApplicationContext applicationContext;
 
-    public void initialize0() {
-        try {
-            this.initialize();
-        } catch (Exception e) {
-            log.error("出错啦", e);
-        }
-    }
-
     /**
      * 用于初始化
      */

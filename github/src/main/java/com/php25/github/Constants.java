@@ -1,4 +1,4 @@
-package com.php25.desktop.repostars.github;
+package com.php25.github;
 
 /**
  * @author penghuiping

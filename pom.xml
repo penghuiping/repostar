@@ -13,9 +13,9 @@
         <module>common-parent</module>
         <module>core</module>
         <module>db</module>
+        <module>github</module>
         <module>app</module>
     </modules>
-
 
     <packaging>pom</packaging>
 </project>

@@ -1,4 +1,4 @@
-package com.php25.desktop.repostars.github.dto;
+package com.php25.github.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

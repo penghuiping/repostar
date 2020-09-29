@@ -22,6 +22,10 @@ public abstract class StringUtil {
         return (str == null || str.trim().length() == 0);
     }
 
+    public static boolean isNotBlank(String str) {
+        return !isBlank(str);
+    }
+
     /**
      * 如果字符串为null或者""返回true
      *

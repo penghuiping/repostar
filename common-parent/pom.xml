@@ -45,12 +45,7 @@
 
         <php-common.db>2.3.2-SNAPSHOT</php-common.db>
         <php-common.core>2.3.2-SNAPSHOT</php-common.core>
-        <php-common.mvc>2.3.2-SNAPSHOT</php-common.mvc>
-        <php-common.redis>2.3.2-SNAPSHOT</php-common.redis>
-        <php-common.validation>2.3.2-SNAPSHOT</php-common.validation>
-        <php-common.auditlog>2.3.2-SNAPSHOT</php-common.auditlog>
-        <php-common.time-tasks>2.3.2-SNAPSHOT</php-common.time-tasks>
-        <uid-generator>2.3.2-SNAPSHOT</uid-generator>
+        <php-common.github>2.3.2-SNAPSHOT</php-common.github>
     </properties>
 
     <dependencyManagement>
@@ -118,12 +113,6 @@
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>${okhttp.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
@@ -160,38 +149,14 @@
             </dependency>
             <dependency>
                 <groupId>com.php25</groupId>
-                <artifactId>auditlog</artifactId>
-                <version>${php-common.auditlog}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.php25</groupId>
-                <artifactId>time-tasks</artifactId>
-                <version>${php-common.time-tasks}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.php25</groupId>
-                <artifactId>validation</artifactId>
-                <version>${php-common.validation}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.php25</groupId>
                 <artifactId>db</artifactId>
                 <version>${php-common.db}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.php25</groupId>
-                <artifactId>mvc</artifactId>
-                <version>${php-common.mvc}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.php25</groupId>
-                <artifactId>redis</artifactId>
-                <version>${php-common.redis}</version>
+                <artifactId>github</artifactId>
+                <version>${php-common.github}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
