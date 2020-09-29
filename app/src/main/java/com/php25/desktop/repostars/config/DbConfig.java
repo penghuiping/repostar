@@ -6,6 +6,7 @@ import com.php25.common.db.Db;
 import com.php25.common.db.DbType;
 import com.php25.common.db.cnd.JdbcPair;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -28,10 +29,12 @@ import java.nio.charset.StandardCharsets;
 public class DbConfig {
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(
+            @Value("spring.datasource.url") String url
+    ) {
         SQLiteDataSource sqLiteDataSource = new SQLiteDataSource();
         sqLiteDataSource.setDatabaseName("repostars");
-        sqLiteDataSource.setUrl("jdbc:sqlite:///tmp/repostars.db");
+        sqLiteDataSource.setUrl(url);
         return sqLiteDataSource;
     }
 
@@ -39,9 +42,10 @@ public class DbConfig {
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         try (var readChannel = Channels.newChannel(new ClassPathResource("initsql/repostars_schema.sql").getInputStream())) {
             var jdbcTemplate = new JdbcTemplate(dataSource);
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(512);
             StringBuilder sb = new StringBuilder();
             for (; ; ) {
+                byteBuffer.clear();
                 int len = readChannel.read(byteBuffer);
                 if (len <= 0) {
                     break;
