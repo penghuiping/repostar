@@ -30,10 +30,10 @@ public class DbConfig {
 
     @Bean
     public DataSource dataSource(
-            @Value("spring.datasource.url") String url
+            @Value("${spring.datasource.url}") String url
     ) {
         SQLiteDataSource sqLiteDataSource = new SQLiteDataSource();
-        sqLiteDataSource.setDatabaseName("repostars");
+        //sqLiteDataSource.setDatabaseName("repostars");
         sqLiteDataSource.setUrl(url);
         return sqLiteDataSource;
     }

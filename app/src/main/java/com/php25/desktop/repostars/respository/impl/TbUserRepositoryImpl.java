@@ -22,4 +22,10 @@ public class TbUserRepositoryImpl extends BaseDbRepositoryImpl<TbUser, Long> imp
     public TbUser findByLoginName(String loginName) {
         return db.cndJdbc(TbUser.class).whereEq("login", loginName).single();
     }
+
+
+    @Override
+    public TbUser findByLoginNameAndToken(String loginName, String token) {
+        return db.cndJdbc(TbUser.class).whereEq("login", loginName).andEq("token", token).single();
+    }
 }

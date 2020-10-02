@@ -8,8 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 
-import java.time.LocalDateTime;
-
 /**
  * @author penghuiping
  * @date 2020/9/23 14:29
@@ -37,10 +35,13 @@ public class TbUser implements Persistable<Long> {
     private String email;
 
     @Column("create_time")
-    private LocalDateTime createTime;
+    private Long createTime;
 
     @Column("last_modified_time")
-    private LocalDateTime lastModifiedTime;
+    private Long lastModifiedTime;
+
+    @Column("last_login_time")
+    private Long lastLoginTime;
 
     private Integer enable;
 

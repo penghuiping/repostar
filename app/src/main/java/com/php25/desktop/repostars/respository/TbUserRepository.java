@@ -10,4 +10,6 @@ import com.php25.desktop.repostars.respository.entity.TbUser;
 public interface TbUserRepository extends BaseDbRepository<TbUser, Long> {
 
     TbUser findByLoginName(String loginName);
+
+    TbUser findByLoginNameAndToken(String loginName, String token);
 }

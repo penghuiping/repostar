@@ -8,8 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 
-import java.time.LocalDateTime;
-
 /**
  * @author penghuiping
  * @date 2020/9/23 14:28
@@ -38,9 +36,11 @@ public class TbGist implements Persistable<Long> {
 
     private Integer watchers;
 
-    private LocalDateTime createTime;
+    @Column("create_time")
+    private Long createTime;
 
-    private LocalDateTime lastModifiedTime;
+    @Column("last_modified_time")
+    private Long lastModifiedTime;
 
     private Integer enable;
 

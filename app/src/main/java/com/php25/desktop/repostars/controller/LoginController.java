@@ -1,7 +1,9 @@
 package com.php25.desktop.repostars.controller;
 
+import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.desktop.repostars.service.UserService;
 import com.php25.desktop.repostars.util.GlobalUtil;
+import com.php25.desktop.repostars.util.LocalStorage;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -36,6 +38,9 @@ public class LoginController extends BaseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LocalStorage localStorage;
+
     @Override
     public void start() throws Exception {
         logo.setImage(new Image(new ClassPathResource("img/github_logo.png").getInputStream()));
@@ -55,7 +60,8 @@ public class LoginController extends BaseController {
                 case "loginBtn": {
                     String token = tokenTextField.getText();
                     String username = usernameTextField.getText();
-                    userService.login(username, token);
+                    TbUser tbUser = userService.login(username, token);
+                    localStorage.save(tbUser);
                     GlobalUtil.goNextScene("nav_controller.fxml", mouseEvent, this.applicationContext);
                 }
                 case "resetBtn": {
