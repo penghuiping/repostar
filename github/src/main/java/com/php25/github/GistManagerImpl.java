@@ -27,10 +27,12 @@ public class GistManagerImpl implements GistManager {
     private HttpClient httpClient;
 
     @Override
-    public List<Gist> getAllStarredGist(String username, Integer pageNum, Integer pageSize) {
+    public List<Gist> getAllStarredGist(String username, String token, Integer pageNum, Integer pageSize) {
         try {
-            var uri = new URI(String.format(Constants.LIST_STARRED_GISTS + "?page%d&&per_page=%d", username, pageNum, pageSize));
-            var request = HttpRequest.newBuilder(uri).GET().build();
+            var uri = new URI(String.format(Constants.LIST_STARRED_GISTS + "?page=%d&&per_page=%d", username, pageNum, pageSize));
+            var request = HttpRequest.newBuilder(uri).GET()
+                    .header("Authorization", String.format("token %s", token))
+                    .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             return JsonUtil.fromJson(response.body(), new TypeReference<List<Gist>>() {
             });

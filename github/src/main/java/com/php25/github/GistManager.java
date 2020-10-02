@@ -15,9 +15,10 @@ public interface GistManager {
      * 获取某个用户在github中star的项目列表
      *
      * @param username github的用户名
+     * @param token    github令牌
      * @param pageNum  当前第几页
      * @param pageSize 每页有多少条数据
      * @return starred项目列表
      */
-    List<Gist> getAllStarredGist(String username, Integer pageNum, Integer pageSize);
+    List<Gist> getAllStarredGist(String username, String token, Integer pageNum, Integer pageSize);
 }

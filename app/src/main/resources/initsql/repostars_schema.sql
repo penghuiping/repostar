@@ -12,6 +12,7 @@ CREATE TABLE if not exists `tb_user`
     `last_login_time`    datetime,
     `enable`             int
 );
+
 CREATE TABLE if not exists `tb_gist`
 (
     `id`                 bigint primary key,

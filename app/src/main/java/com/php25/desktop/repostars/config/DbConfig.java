@@ -56,7 +56,10 @@ public class DbConfig {
                 sb.append(new String(tmp, StandardCharsets.UTF_8));
             }
             log.info("initScript:{}", sb.toString());
-            jdbcTemplate.execute(sb.toString());
+
+            for (String sql : sb.toString().split(";")) {
+                jdbcTemplate.execute(sql);
+            }
             return jdbcTemplate;
         } catch (Exception e) {
             throw Exceptions.throwIllegalStateException("初始化数据库出错", e);

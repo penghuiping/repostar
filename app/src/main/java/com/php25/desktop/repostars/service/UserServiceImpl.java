@@ -3,6 +3,7 @@ package com.php25.desktop.repostars.service;
 import com.php25.common.core.exception.Exceptions;
 import com.php25.common.core.mess.IdGenerator;
 import com.php25.common.core.util.AssertUtil;
+import com.php25.common.core.util.JsonUtil;
 import com.php25.common.core.util.StringUtil;
 import com.php25.common.core.util.TimeUtil;
 import com.php25.desktop.repostars.constant.AppError;
@@ -14,12 +15,14 @@ import com.php25.github.GistManager;
 import com.php25.github.UserManager;
 import com.php25.github.dto.Gist;
 import com.php25.github.dto.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
  * @author penghuiping
  * @date 2020/9/29 13:41
  */
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -109,18 +113,45 @@ public class UserServiceImpl implements UserService {
         executorService.execute(() -> {
             //全量同步
             int pageNum = 1;
-            int pageSize = 100;
+            int pageSize = 50;
             while (true) {
-                List<Gist> gists = gistManager.getAllStarredGist(username, pageNum, pageSize);
-                if (gists == null || gists.size() < 100) {
+                List<Gist> gists = gistManager.getAllStarredGist(username, token, pageNum, pageSize);
+                log.info("pageNum:{},gists:{}", pageNum, JsonUtil.toJson(gists));
+                if (gists == null || gists.size() < pageSize) {
                     break;
                 }
                 List<TbGist> tbGists = gists.stream().map(gist -> {
                     TbGist tbGist = new TbGist();
                     BeanUtils.copyProperties(gist, tbGist);
+                    tbGist.setEnable(1);
                     return tbGist;
                 }).collect(Collectors.toList());
-                tbGistRepository.saveAll(tbGists);
+
+                List<TbGist> createList = new ArrayList<>();
+                List<TbGist> updateList = new ArrayList<>();
+
+                for (TbGist tbGist : tbGists) {
+                    if (tbGistRepository.findById(tbGist.getId()).isPresent()) {
+                        //更新
+                        tbGist.setLastModifiedTime(Instant.now().toEpochMilli());
+                        tbGist.setIsNew(false);
+                        updateList.add(tbGist);
+                    } else {
+                        //新增
+                        tbGist.setCreateTime(Instant.now().toEpochMilli());
+                        tbGist.setLastModifiedTime(Instant.now().toEpochMilli());
+                        tbGist.setIsNew(true);
+                        createList.add(tbGist);
+                    }
+                }
+
+                if (!createList.isEmpty()) {
+                    tbGistRepository.saveAll(createList);
+                }
+
+                if (!updateList.isEmpty()) {
+                    tbGistRepository.saveAll(updateList);
+                }
                 pageNum = pageNum + 1;
             }
         });
