@@ -120,50 +120,55 @@ public class UserServiceImpl implements UserService {
     @Override
     public void syncStarRepo(String username, String token) {
         executorService.execute(() -> {
-            //全量同步
-            int pageNum = 1;
-            int pageSize = 50;
-            while (true) {
-                List<Gist> gists = gistManager.getAllStarredGist(username, token, pageNum, pageSize);
-                if (gists == null || gists.size() < pageSize) {
-                    break;
-                }
-                List<TbGist> tbGists = gists.stream().map(gist -> {
-                    TbGist tbGist = new TbGist();
-                    BeanUtils.copyProperties(gist, tbGist);
-                    tbGist.setEnable(1);
-                    return tbGist;
-                }).collect(Collectors.toList());
-
-                List<TbGist> createList = new ArrayList<>();
-                List<TbGist> updateList = new ArrayList<>();
-
-                for (TbGist tbGist : tbGists) {
-                    if (tbGistRepository.findById(tbGist.getId()).isPresent()) {
-                        //更新
-                        tbGist.setLastModifiedTime(Instant.now().toEpochMilli());
-                        tbGist.setIsNew(false);
-                        updateList.add(tbGist);
-                    } else {
-                        //新增
-                        tbGist.setCreateTime(Instant.now().toEpochMilli());
-                        tbGist.setLastModifiedTime(Instant.now().toEpochMilli());
-                        tbGist.setIsNew(true);
-                        createList.add(tbGist);
-                    }
-                }
-
-                if (!createList.isEmpty()) {
-                    tbGistRepository.saveAll(createList);
-                }
-
-                if (!updateList.isEmpty()) {
-                    tbGistRepository.saveAll(updateList);
-                }
-                pageNum = pageNum + 1;
-            }
+            syncStarRepo0(username, token);
         });
 
+    }
+
+    private void syncStarRepo0(String username, String token) {
+        //全量同步
+        int pageNum = 1;
+        int pageSize = 50;
+        while (true) {
+            List<Gist> gists = gistManager.getAllStarredGist(username, token, pageNum, pageSize);
+            if (gists == null || gists.size() < pageSize) {
+                break;
+            }
+            List<TbGist> tbGists = gists.stream().map(gist -> {
+                TbGist tbGist = new TbGist();
+                BeanUtils.copyProperties(gist, tbGist);
+                tbGist.setEnable(1);
+                return tbGist;
+            }).collect(Collectors.toList());
+
+            List<TbGist> createList = new ArrayList<>();
+            List<TbGist> updateList = new ArrayList<>();
+
+            for (TbGist tbGist : tbGists) {
+                if (tbGistRepository.findById(tbGist.getId()).isPresent()) {
+                    //更新
+                    tbGist.setLastModifiedTime(Instant.now().toEpochMilli());
+                    tbGist.setIsNew(false);
+                    updateList.add(tbGist);
+                } else {
+                    //新增
+                    tbGist.setCreateTime(Instant.now().toEpochMilli());
+                    tbGist.setLastModifiedTime(Instant.now().toEpochMilli());
+                    tbGist.setLogin(username);
+                    tbGist.setIsNew(true);
+                    createList.add(tbGist);
+                }
+            }
+
+            if (!createList.isEmpty()) {
+                tbGistRepository.saveAll(createList);
+            }
+
+            if (!updateList.isEmpty()) {
+                tbGistRepository.saveAll(updateList);
+            }
+            pageNum = pageNum + 1;
+        }
     }
 
     @Override
@@ -177,10 +182,23 @@ public class UserServiceImpl implements UserService {
                     BeanUtils.copyProperties(repos1, tbRepos);
                     tbRepos.setLogin(username);
                     tbRepos.setIsNew(true);
+                    tbRepos.setCreateTime(System.currentTimeMillis());
+                    tbRepos.setLastModifiedTime(System.currentTimeMillis());
+                    tbRepos.setEnable(1);
                     return tbRepos;
                 }).collect(Collectors.toList());
                 tbReposRepository.saveAll(result);
             }
+        }
+        return result;
+    }
+
+    @Override
+    public List<TbGist> getMyGist(String username, String token) {
+        List<TbGist> result = tbGistRepository.findAllByLogin(username);
+        if (null == result || result.isEmpty()) {
+            this.syncStarRepo0(username, token);
+            result = tbGistRepository.findAllByLogin(username);
         }
         return result;
     }

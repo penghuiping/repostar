@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      fx:controller="com.php25.desktop.repostars.controller.AllStarRepoController"
+      prefHeight="600.0" prefWidth="800.0">
+    <ScrollPane fx:id="scrollPane" minHeight="600" minWidth="800">
+        <VBox fx:id="container" minHeight="600" minWidth="800.0"/>
+    </ScrollPane>
+</VBox>

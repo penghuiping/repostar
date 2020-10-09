@@ -33,6 +33,7 @@ public class NavController extends BaseController {
     public void start() throws Exception {
         logoutBtn.setOnMouseClicked(this);
         myRepoBtn.setOnMouseClicked(this);
+        allStarRepoBtn.setOnMouseClicked(this);
     }
 
     @Override
@@ -45,8 +46,11 @@ public class NavController extends BaseController {
                 break;
             }
             case "myRepoBtn": {
-                log.info("click my repo btn");
                 GlobalUtil.goNextScene("my_repo_controller.fxml", mouseEvent, this.applicationContext);
+                break;
+            }
+            case "allStarRepoBtn": {
+                GlobalUtil.goNextScene("all_star_repo_controller.fxml", mouseEvent, this.applicationContext);
                 break;
             }
             default: {

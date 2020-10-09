@@ -1,5 +1,6 @@
 package com.php25.desktop.repostars.service;
 
+import com.php25.desktop.repostars.respository.entity.TbGist;
 import com.php25.desktop.repostars.respository.entity.TbRepos;
 import com.php25.desktop.repostars.respository.entity.TbUser;
 
@@ -35,4 +36,13 @@ public interface UserService {
      * @return repos列表
      */
     List<TbRepos> getMyRepos(String username, String token);
+
+    /**
+     * 获取用户star的项目
+     *
+     * @param username
+     * @param token
+     * @return
+     */
+    List<TbGist> getMyGist(String username, String token);
 }

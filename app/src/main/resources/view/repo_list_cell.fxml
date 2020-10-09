@@ -18,7 +18,7 @@
                 <Font size="16.0"/>
             </font>
         </Label>
-        <Label fx:id="descLabel" layoutX="18.0" layoutY="37.0" text="this is a desctiption">
+        <Label fx:id="descLabel" layoutX="18.0" layoutY="37.0" text="this is a desctiption" maxWidth="700">
             <font>
                 <Font size="12.0"/>
             </font>

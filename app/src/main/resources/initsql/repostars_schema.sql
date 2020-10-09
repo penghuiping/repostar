@@ -25,6 +25,7 @@ CREATE TABLE if not exists `tb_gist`
     `watchers`           datetime,
     `create_time`        datetime,
     `last_modified_time` datetime,
+    `login`              varchar(255),
     `enable`             int
 );
 
