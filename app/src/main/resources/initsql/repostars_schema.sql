@@ -27,3 +27,19 @@ CREATE TABLE if not exists `tb_gist`
     `last_modified_time` datetime,
     `enable`             int
 );
+
+CREATE TABLE if not exists `tb_repos`
+(
+    `id`                 bigint primary key,
+    `name`               varchar(255),
+    `full_name`          varchar(255),
+    `html_url`           varchar(255),
+    `description`        varchar(255),
+    `language`           varchar(255),
+    `forks`              datetime,
+    `watchers`           datetime,
+    `create_time`        datetime,
+    `last_modified_time` datetime,
+    `login`              varchar(255),
+    `enable`             int
+);

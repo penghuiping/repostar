@@ -1,0 +1,7 @@
+.cell:hover {
+    -fx-background-color: gray;
+}
+
+.cell:pressed {
+    -fx-background-color: black;
+}

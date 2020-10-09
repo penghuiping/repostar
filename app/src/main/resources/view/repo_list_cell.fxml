@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="80.0" prefWidth="770.0"
+            stylesheets="@../css/repo_list_cell.css" xmlns="http://javafx.com/javafx/8">
+    <AnchorPane layoutX="11.0" layoutY="5.0" style="-fx-border-color: black" styleClass="cell">
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="706.0" layoutY="25.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <Image url="@../img/right_arrow.png"/>
+        </ImageView>
+        <Label fx:id="titleLabel" layoutX="11.0" layoutY="4.0" text="title">
+            <font>
+                <Font size="16.0"/>
+            </font>
+        </Label>
+        <Label fx:id="descLabel" layoutX="18.0" layoutY="37.0" text="this is a desctiption">
+            <font>
+                <Font size="12.0"/>
+            </font>
+        </Label>
+        <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="18.0" layoutY="72.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <Image url="@../img/star.png"/>
+        </ImageView>
+        <Label fx:id="starLabel" layoutX="39.0" layoutY="72.0" text="1000"/>
+    </AnchorPane>
+    <padding>
+        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+    </padding>
+</AnchorPane>

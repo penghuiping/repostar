@@ -3,17 +3,20 @@ package com.php25.desktop.repostars.service;
 import com.php25.common.core.exception.Exceptions;
 import com.php25.common.core.mess.IdGenerator;
 import com.php25.common.core.util.AssertUtil;
-import com.php25.common.core.util.JsonUtil;
 import com.php25.common.core.util.StringUtil;
 import com.php25.common.core.util.TimeUtil;
 import com.php25.desktop.repostars.constant.AppError;
 import com.php25.desktop.repostars.respository.TbGistRepository;
+import com.php25.desktop.repostars.respository.TbReposRepository;
 import com.php25.desktop.repostars.respository.TbUserRepository;
 import com.php25.desktop.repostars.respository.entity.TbGist;
+import com.php25.desktop.repostars.respository.entity.TbRepos;
 import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.github.GistManager;
+import com.php25.github.ReposManager;
 import com.php25.github.UserManager;
 import com.php25.github.dto.Gist;
+import com.php25.github.dto.Repos;
 import com.php25.github.dto.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -43,10 +46,16 @@ public class UserServiceImpl implements UserService {
     private GistManager gistManager;
 
     @Autowired
+    private ReposManager reposManager;
+
+    @Autowired
     private TbUserRepository tbUserRepository;
 
     @Autowired
     private TbGistRepository tbGistRepository;
+
+    @Autowired
+    private TbReposRepository tbReposRepository;
 
     @Autowired
     private IdGenerator idGenerator;
@@ -116,7 +125,6 @@ public class UserServiceImpl implements UserService {
             int pageSize = 50;
             while (true) {
                 List<Gist> gists = gistManager.getAllStarredGist(username, token, pageNum, pageSize);
-                log.info("pageNum:{},gists:{}", pageNum, JsonUtil.toJson(gists));
                 if (gists == null || gists.size() < pageSize) {
                     break;
                 }
@@ -156,5 +164,24 @@ public class UserServiceImpl implements UserService {
             }
         });
 
+    }
+
+    @Override
+    public List<TbRepos> getMyRepos(String username, String token) {
+        List<TbRepos> result = tbReposRepository.findAllByLogin(username);
+        if (null == result || result.isEmpty()) {
+            List<Repos> repos = reposManager.getReposList(token);
+            if (null != repos && !repos.isEmpty()) {
+                result = repos.stream().map(repos1 -> {
+                    TbRepos tbRepos = new TbRepos();
+                    BeanUtils.copyProperties(repos1, tbRepos);
+                    tbRepos.setLogin(username);
+                    tbRepos.setIsNew(true);
+                    return tbRepos;
+                }).collect(Collectors.toList());
+                tbReposRepository.saveAll(result);
+            }
+        }
+        return result;
     }
 }

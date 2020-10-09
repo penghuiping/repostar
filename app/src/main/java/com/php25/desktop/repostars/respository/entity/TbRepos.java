@@ -42,6 +42,8 @@ public class TbRepos implements Persistable<Long> {
     @Column("last_modified_time")
     private Long lastModifiedTime;
 
+    private String login;
+
     private Integer enable;
 
     @Transient

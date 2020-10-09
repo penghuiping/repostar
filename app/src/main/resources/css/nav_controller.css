@@ -1,0 +1,14 @@
+.nav_btn {
+    -fx-background-color: white;
+    -fx-border-width: 1;
+    -fx-border-color: black;
+}
+
+.nav_btn:hover {
+    -fx-background-color: gray;
+}
+
+.nav_btn:pressed {
+    -fx-background-color: black;
+}
+
