@@ -201,7 +201,7 @@ public class UserServiceImpl implements UserService {
             this.syncStarRepo0(username, token);
         }
         int[] values = PageUtil.transToStartEnd(pageNum, pageSize);
-        List<TbGist> result = tbGistRepository.findPageByLogin(username, values[0], values[1]);
+        List<TbGist> result = tbGistRepository.findPageByLogin(username, values[0], pageSize);
         return result;
     }
 

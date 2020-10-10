@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface TbGistRepository extends BaseDbRepository<TbGist, Long> {
 
-    List<TbGist> findPageByLogin(String login, Integer start, Integer offset);
+    List<TbGist> findPageByLogin(String login, Integer start, Integer pageSize);
 
     Long countByLogin(String login);
 }

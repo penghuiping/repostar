@@ -66,7 +66,7 @@ public class AllStarRepoController extends BaseController {
 
         //下滑加载
         scrollPane.setOnScroll(scrollEvent -> {
-            if (scrollEvent.getDeltaY() < 0 && pageNum.get() < totalPageSize - 1) {
+            if (scrollEvent.getDeltaY() < 0 && pageNum.get() < totalPageSize) {
                 log.info("下划");
                 pageNum.set(pageNum.get() + 1);
                 List<TbGist> gistList1 = userService.getMyGist(tbUser.getLogin(), tbUser.getToken(), pageNum.get(), pageSize);
