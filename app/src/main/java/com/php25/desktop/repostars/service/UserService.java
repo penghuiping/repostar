@@ -2,6 +2,7 @@ package com.php25.desktop.repostars.service;
 
 import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.desktop.repostars.respository.entity.TbGist;
+import com.php25.desktop.repostars.respository.entity.TbGroup;
 import com.php25.desktop.repostars.respository.entity.TbRepos;
 import com.php25.desktop.repostars.respository.entity.TbUser;
 import org.springframework.data.domain.PageRequest;
@@ -49,4 +50,12 @@ public interface UserService {
      * @return 分页数据
      */
     DataGridPageDto<TbGist> searchPage(String username, String token, String searchKey, PageRequest request);
+
+    /**
+     * 获取用户创建的组
+     *
+     * @param username 用户名
+     * @return 组列表
+     */
+    List<TbGroup> getGroups(String username);
 }

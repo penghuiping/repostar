@@ -7,40 +7,34 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/8"
       fx:controller="com.php25.desktop.repostars.controller.NavController">
-    <children>
-        <HBox prefHeight="62.0" prefWidth="800.0">
-            <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="203.0"
-                       text="欢迎,penghuiping!" textAlignment="RIGHT"/>
-                <Button fx:id="logoutBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                        prefHeight="62.0" prefWidth="85.0" text="退出登入" textAlignment="RIGHT">
-                    <HBox.margin>
-                        <Insets bottom="15.0" top="15.0"/>
-                    </HBox.margin>
-                </Button>
-            </children>
-        </HBox>
-        <VBox prefHeight="536.0" prefWidth="800.0">
-            <children>
-                <Button fx:id="myRepoBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
-                        styleClass="nav_btn" stylesheets="@css/nav_controller.css" text="我的repositories">
-                    <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="allStarRepoBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
-                        styleClass="nav_btn" stylesheets="@css/nav_controller.css" text="所有的star项目">
-                    <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </VBox.margin>
-                </Button>
-                <Button fx:id="selfDefinedGroupBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
-                        styleClass="nav_btn" stylesheets="@css/nav_controller.css" text="自定义分组">
-                    <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </VBox.margin>
-                </Button>
-            </children>
-        </VBox>
-    </children>
+    <HBox prefHeight="62.0" prefWidth="800.0">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="203.0"
+               text="欢迎,penghuiping!" textAlignment="RIGHT"/>
+        <Button fx:id="logoutBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                prefHeight="62.0" prefWidth="85.0" text="退出登入" textAlignment="RIGHT">
+            <HBox.margin>
+                <Insets bottom="15.0" top="15.0"/>
+            </HBox.margin>
+        </Button>
+    </HBox>
+    <VBox prefHeight="536.0" prefWidth="800.0">
+        <Button fx:id="myRepoBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
+                styleClass="nav_btn" stylesheets="@css/nav_controller.css" text="我的repositories">
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </VBox.margin>
+        </Button>
+        <Button fx:id="allStarRepoBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
+                styleClass="nav_btn" stylesheets="@css/nav_controller.css" text="所有的star项目">
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </VBox.margin>
+        </Button>
+        <Button fx:id="selfDefinedGroupBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
+                styleClass="nav_btn" stylesheets="@css/nav_controller.css" text="自定义分组">
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </VBox.margin>
+        </Button>
+    </VBox>
 </VBox>

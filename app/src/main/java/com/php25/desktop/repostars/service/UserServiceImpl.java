@@ -11,9 +11,11 @@ import com.php25.common.db.specification.SearchParam;
 import com.php25.common.db.specification.SearchParamBuilder;
 import com.php25.desktop.repostars.constant.AppError;
 import com.php25.desktop.repostars.respository.TbGistRepository;
+import com.php25.desktop.repostars.respository.TbGroupRepository;
 import com.php25.desktop.repostars.respository.TbReposRepository;
 import com.php25.desktop.repostars.respository.TbUserRepository;
 import com.php25.desktop.repostars.respository.entity.TbGist;
+import com.php25.desktop.repostars.respository.entity.TbGroup;
 import com.php25.desktop.repostars.respository.entity.TbRepos;
 import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.github.GistManager;
@@ -68,6 +70,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ExecutorService executorService;
+
+    @Autowired
+    private TbGroupRepository tbGroupRepository;
 
     @Override
     public TbUser login(String username, String token) {
@@ -210,5 +215,10 @@ public class UserServiceImpl implements UserService {
         dataGridPageDto.setData(page.getContent());
         dataGridPageDto.setRecordsTotal(page.getTotalElements());
         return dataGridPageDto;
+    }
+
+    @Override
+    public List<TbGroup> getGroups(String username) {
+        return tbGroupRepository.findByLogin(username);
     }
 }

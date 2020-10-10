@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       xmlns="http://javafx.com/javafx"
       fx:controller="com.php25.desktop.repostars.controller.AllStarRepoController"
@@ -23,7 +24,12 @@
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         </rowConstraints>
-        <Label alignment="CENTER" textAlignment="CENTER" GridPane.columnIndex="1">所有的star项目</Label>
+        <Label alignment="CENTER" textAlignment="CENTER" GridPane.columnIndex="1">
+            所有的star项目
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
         <Button mnemonicParsing="false" text="返回" fx:id="backBtn">
             <GridPane.margin>
                 <Insets left="10.0"/>
@@ -31,8 +37,8 @@
         </Button>
     </GridPane>
     <AnchorPane minHeight="40" minWidth="800">
-        <TextField layoutX="10" fx:id="searchTextField"/>
-        <Button text="搜索" layoutX="180" fx:id="searchBtn"/>
+        <TextField layoutX="10" fx:id="searchTextField" minWidth="200"/>
+        <Button text="搜索" layoutX="220" fx:id="searchBtn"/>
     </AnchorPane>
     <ScrollPane fx:id="scrollPane" minHeight="510" minWidth="800">
         <VBox fx:id="container" minHeight="510" minWidth="800.0"/>

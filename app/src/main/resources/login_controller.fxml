@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,39 +13,34 @@
 <?import javafx.scene.text.Text?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="600" prefWidth="800"
       xmlns="http://javafx.com/javafx/8" fx:controller="com.php25.desktop.repostars.controller.LoginController">
-    <children>
-        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="logo">
-            <VBox.margin>
-                <Insets bottom="10.0"/>
-            </VBox.margin>
-        </ImageView>
-        <GridPane alignment="CENTER" hgap="5.0" vgap="5.0">
-            <columnConstraints>
-                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-                <RowConstraints/>
-            </rowConstraints>
-            <children>
-                <Text wrappingWidth="90">用户名</Text>
-                <TextField alignment="BOTTOM_CENTER" GridPane.columnIndex="1" fx:id="usernameTextField">
-                </TextField>
-                <Text wrappingWidth="90" GridPane.rowIndex="1">令牌</Text>
-                <TextField alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1"
-                           fx:id="tokenTextField"/>
-            </children>
-        </GridPane>
-        <HBox alignment="CENTER" prefHeight="56.0" prefWidth="800.0">
-            <children>
-                <Button fx:id="loginBtn" mnemonicParsing="false" text="登入" textAlignment="CENTER">
-                    <HBox.margin>
-                        <Insets right="10.0"/>
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="resetBtn" mnemonicParsing="false" text="重置"/>
-            </children>
-        </HBox>
-    </children>
+    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="logo">
+        <VBox.margin>
+            <Insets bottom="10.0"/>
+        </VBox.margin>
+    </ImageView>
+    <GridPane alignment="CENTER" hgap="5.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+            <RowConstraints/>
+        </rowConstraints>
+        <Text wrappingWidth="90">用户名</Text>
+        <TextField alignment="BOTTOM_CENTER" GridPane.columnIndex="1"
+                   fx:id="usernameTextField" minWidth="200">
+        </TextField>
+        <Text wrappingWidth="90" GridPane.rowIndex="1">令牌</Text>
+        <PasswordField alignment="BOTTOM_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                       fx:id="tokenTextField" minWidth="200"/>
+    </GridPane>
+    <HBox alignment="CENTER" prefHeight="56.0" prefWidth="800.0">
+        <Button fx:id="loginBtn" mnemonicParsing="false" text="登入" textAlignment="CENTER">
+            <HBox.margin>
+                <Insets right="10.0"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="resetBtn" mnemonicParsing="false" text="重置"/>
+    </HBox>
 </VBox>

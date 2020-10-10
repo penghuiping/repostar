@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="200.0" prefWidth="200.0"
+      xmlns="http://javafx.com/javafx/8">
+    <VBox alignment="CENTER" prefHeight="150.0" prefWidth="150.0" maxHeight="150.0" maxWidth="150.0"
+          stylesheets="@../css/group_item.css" styleClass="cell"
+    >
+        <Label fx:id="titleLabel"/>
+    </VBox>
+</VBox>
