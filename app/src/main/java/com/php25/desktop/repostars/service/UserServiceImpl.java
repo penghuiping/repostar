@@ -1,11 +1,15 @@
 package com.php25.desktop.repostars.service;
 
+import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.common.core.exception.Exceptions;
 import com.php25.common.core.mess.IdGenerator;
 import com.php25.common.core.util.AssertUtil;
 import com.php25.common.core.util.PageUtil;
 import com.php25.common.core.util.StringUtil;
 import com.php25.common.core.util.TimeUtil;
+import com.php25.common.db.specification.Operator;
+import com.php25.common.db.specification.SearchParam;
+import com.php25.common.db.specification.SearchParamBuilder;
 import com.php25.desktop.repostars.constant.AppError;
 import com.php25.desktop.repostars.respository.TbGistRepository;
 import com.php25.desktop.repostars.respository.TbReposRepository;
@@ -22,6 +26,8 @@ import com.php25.github.dto.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -209,5 +215,18 @@ public class UserServiceImpl implements UserService {
     public Integer getMyGistTotalPage(String username, String token, Integer pageSize) {
         Long count = tbGistRepository.countByLogin(username);
         return count.intValue() / pageSize;
+    }
+
+    @Override
+    public DataGridPageDto<TbGist> searchPage(String username, String token, String searchKey, PageRequest request) {
+        Long count = tbGistRepository.countByLogin(username);
+        if (null == count || count <= 0) {
+            this.syncStarRepo0(username, token);
+        }
+        Page<TbGist> page = tbGistRepository.findAll(SearchParamBuilder.builder().append(SearchParam.of("login", Operator.EQ, username)).append(SearchParam.of("description", Operator.LIKE, "%" + searchKey + "%")), request);
+        DataGridPageDto<TbGist> dataGridPageDto = new DataGridPageDto<>();
+        dataGridPageDto.setData(page.getContent());
+        dataGridPageDto.setRecordsTotal(page.getTotalElements());
+        return dataGridPageDto;
     }
 }
