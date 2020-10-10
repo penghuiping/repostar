@@ -42,7 +42,12 @@ public interface UserService {
      *
      * @param username
      * @param token
+     * @param pageNum
+     * @param pageSize
      * @return
      */
-    List<TbGist> getMyGist(String username, String token);
+    List<TbGist> getMyGist(String username, String token, Integer pageNum, Integer pageSize);
+
+
+    Integer getMyGistTotalPage(String username, String token, Integer pageSize);
 }

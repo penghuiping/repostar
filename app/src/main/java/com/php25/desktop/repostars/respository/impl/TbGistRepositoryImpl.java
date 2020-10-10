@@ -21,7 +21,12 @@ public class TbGistRepositoryImpl extends BaseDbRepositoryImpl<TbGist, Long> imp
 
 
     @Override
-    public List<TbGist> findAllByLogin(String login) {
-        return db.cndJdbc(TbGist.class).whereEq("login", login).select();
+    public List<TbGist> findPageByLogin(String login, Integer start, Integer offset) {
+        return db.cndJdbc(TbGist.class).whereEq("login", login).limit(start, offset).select();
+    }
+
+    @Override
+    public Long countByLogin(String login) {
+        return db.cndJdbc(TbGist.class).whereEq("login", login).count();
     }
 }

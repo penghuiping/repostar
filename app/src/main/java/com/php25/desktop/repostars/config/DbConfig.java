@@ -73,7 +73,7 @@ public class DbConfig {
 
     @Bean
     Db db(JdbcTemplate jdbcTemplate, TransactionTemplate transactionTemplate) {
-        Db db = new Db(DbType.MYSQL);
+        Db db = new Db(DbType.POSTGRES);
         JdbcPair jdbcPair = new JdbcPair(jdbcTemplate, transactionTemplate);
         db.setJdbcPair(jdbcPair);
         db.scanPackage("com.php25.desktop.repostars.respository.entity");
