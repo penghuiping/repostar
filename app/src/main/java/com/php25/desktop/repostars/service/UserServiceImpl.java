@@ -4,7 +4,6 @@ import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.common.core.exception.Exceptions;
 import com.php25.common.core.mess.IdGenerator;
 import com.php25.common.core.util.AssertUtil;
-import com.php25.common.core.util.PageUtil;
 import com.php25.common.core.util.StringUtil;
 import com.php25.common.core.util.TimeUtil;
 import com.php25.common.db.specification.Operator;
@@ -198,23 +197,6 @@ public class UserServiceImpl implements UserService {
             }
         }
         return result;
-    }
-
-    @Override
-    public List<TbGist> getMyGist(String username, String token, Integer pageNum, Integer pageSize) {
-        Long count = tbGistRepository.countByLogin(username);
-        if (null == count || count <= 0) {
-            this.syncStarRepo0(username, token);
-        }
-        int[] values = PageUtil.transToStartEnd(pageNum, pageSize);
-        List<TbGist> result = tbGistRepository.findPageByLogin(username, values[0], pageSize);
-        return result;
-    }
-
-    @Override
-    public Integer getMyGistTotalPage(String username, String token, Integer pageSize) {
-        Long count = tbGistRepository.countByLogin(username);
-        return count.intValue() / pageSize;
     }
 
     @Override

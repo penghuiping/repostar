@@ -40,28 +40,6 @@ public interface UserService {
     List<TbRepos> getMyRepos(String username, String token);
 
     /**
-     * 获取用户star的项目
-     *
-     * @param username 用户名
-     * @param token    令牌
-     * @param pageNum  当前第几页
-     * @param pageSize 每页大小
-     * @return star项目列表
-     */
-    List<TbGist> getMyGist(String username, String token, Integer pageNum, Integer pageSize);
-
-
-    /**
-     * 根据每页大小计算总页数
-     *
-     * @param username 用户名
-     * @param token    令牌
-     * @param pageSize 每页大小
-     * @return 总页数
-     */
-    Integer getMyGistTotalPage(String username, String token, Integer pageSize);
-
-    /**
      * 分页搜搜
      *
      * @param username  用户名
