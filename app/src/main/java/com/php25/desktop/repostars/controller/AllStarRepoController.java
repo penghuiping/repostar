@@ -101,7 +101,7 @@ public class AllStarRepoController extends BaseController {
 
         //下滑加载
         scrollPane.setOnScroll(scrollEvent -> {
-            if (scrollEvent.getDeltaY() < 0 && pageNum.get() < dataGridPageDto.getRecordsTotal()) {
+            if (scrollEvent.getDeltaY() < 0 && pageNum.get() < dataGridPageDto.getRecordsTotal() / pageSize) {
                 log.info("下划");
                 pageNum.set(pageNum.get() + 1);
                 this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText, PageRequest.of(pageNum.get(), pageSize));

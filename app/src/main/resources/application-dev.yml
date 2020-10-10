@@ -2,7 +2,7 @@ spring:
   main:
     web-application-type: none
   datasource:
-    url: jdbc:sqlite:///tmp/repostars.db
+    url: jdbc:sqlite:/tmp/repostars.db
 logging:
   level:
     root: INFO
