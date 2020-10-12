@@ -6,7 +6,6 @@ import com.php25.desktop.repostars.service.UserService;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.RepoListCell;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
@@ -23,13 +22,8 @@ import java.util.List;
 @Component
 public class MyRepoController extends BaseController {
 
-    @FXML
     public VBox container;
-
-    @FXML
     public ScrollPane scrollPane;
-
-    @FXML
     public Button backBtn;
 
     @Autowired

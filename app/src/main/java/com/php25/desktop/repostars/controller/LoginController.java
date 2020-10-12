@@ -4,7 +4,6 @@ import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.desktop.repostars.service.UserService;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
-import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -24,15 +23,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginController extends BaseController {
 
-    @FXML
     public Button loginBtn;
-    @FXML
     public Button resetBtn;
-    @FXML
     public TextField usernameTextField;
-    @FXML
     public TextField tokenTextField;
-    @FXML
     public ImageView logo;
 
     @Autowired

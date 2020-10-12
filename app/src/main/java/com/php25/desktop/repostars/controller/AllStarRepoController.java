@@ -7,7 +7,6 @@ import com.php25.desktop.repostars.service.UserService;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.RepoListCell;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -30,19 +29,10 @@ import java.util.concurrent.atomic.AtomicReference;
 @Component
 public class AllStarRepoController extends BaseController {
 
-    @FXML
     public ScrollPane scrollPane;
-
-    @FXML
     public VBox container;
-
-    @FXML
     public Button backBtn;
-
-    @FXML
     public TextField searchTextField;
-
-    @FXML
     public Button searchBtn;
 
     @Autowired

@@ -7,7 +7,6 @@ import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.GroupItem;
 import com.php25.desktop.repostars.view.GroupItem0;
 import com.php25.desktop.repostars.view.GroupItemAdd;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -32,16 +31,9 @@ import java.util.stream.Collectors;
 @Component
 public class GroupController extends BaseController {
 
-    @FXML
     public Button backBtn;
-
-    @FXML
     public FlowPane container;
-
-    @FXML
     public ScrollPane scrollPane;
-
-    @FXML
     public Button editBtn;
 
     private List<GroupItem0> groupItems = new ArrayList<>();
@@ -114,7 +106,8 @@ public class GroupController extends BaseController {
                     //非编辑状态点击
                     var item = (GroupItem) mouseEvent.getSource();
                     if (!item.isEdit()) {
-                        log.info("clicked group item:{}", item.getTitle());
+                        localStorage.put("group_list_controller_title", item.getTitle());
+                        GlobalUtil.goNextScene("controller/group_list_controller.fxml", mouseEvent, this.applicationContext);
                     }
                 } else {
                     //编辑状态新增
