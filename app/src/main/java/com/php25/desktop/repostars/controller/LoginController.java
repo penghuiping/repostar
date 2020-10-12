@@ -62,7 +62,7 @@ public class LoginController extends BaseController {
                     String username = usernameTextField.getText();
                     TbUser tbUser = userService.login(username, token);
                     localStorage.save(tbUser);
-                    GlobalUtil.goNextScene("nav_controller.fxml", mouseEvent, this.applicationContext);
+                    GlobalUtil.goNextScene("controller/nav_controller.fxml", mouseEvent, this.applicationContext);
                 }
                 case "resetBtn": {
                     usernameTextField.setText("");

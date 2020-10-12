@@ -21,7 +21,7 @@ public class StageInitializer implements ApplicationListener<JavaFxApp.StageRead
     @Override
     public void onApplicationEvent(JavaFxApp.StageReadyEvent stageReadyEvent) {
         Stage stage = stageReadyEvent.getStage();
-        stage.setScene(new Scene(GlobalUtil.loadFxml("login_controller.fxml", applicationContext), GlobalUtil.getWindowWidth(), GlobalUtil.getWindowHeight()));
+        stage.setScene(new Scene(GlobalUtil.loadFxml("controller/login_controller.fxml", applicationContext), GlobalUtil.getWindowWidth(), GlobalUtil.getWindowHeight()));
         stage.show();
     }
 }

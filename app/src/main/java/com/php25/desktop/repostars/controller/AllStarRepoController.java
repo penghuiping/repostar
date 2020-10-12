@@ -67,7 +67,7 @@ public class AllStarRepoController extends BaseController {
         Button button = (Button) mouseEvent.getSource();
         switch (button.getId()) {
             case "backBtn": {
-                GlobalUtil.goNextScene("nav_controller.fxml", mouseEvent, this.applicationContext);
+                GlobalUtil.goNextScene("controller/nav_controller.fxml", mouseEvent, this.applicationContext);
                 break;
             }
             case "searchBtn": {

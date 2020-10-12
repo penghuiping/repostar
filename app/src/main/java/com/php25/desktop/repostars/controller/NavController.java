@@ -42,20 +42,20 @@ public class NavController extends BaseController {
         Button button = (Button) mouseEvent.getSource();
         switch (button.getId()) {
             case "logoutBtn": {
-                GlobalUtil.goNextScene("login_controller.fxml", mouseEvent, this.applicationContext);
+                GlobalUtil.goNextScene("controller/login_controller.fxml", mouseEvent, this.applicationContext);
                 localStorage.clearAll();
                 break;
             }
             case "myRepoBtn": {
-                GlobalUtil.goNextScene("my_repo_controller.fxml", mouseEvent, this.applicationContext);
+                GlobalUtil.goNextScene("controller/my_repo_controller.fxml", mouseEvent, this.applicationContext);
                 break;
             }
             case "allStarRepoBtn": {
-                GlobalUtil.goNextScene("all_star_repo_controller.fxml", mouseEvent, this.applicationContext);
+                GlobalUtil.goNextScene("controller/all_star_repo_controller.fxml", mouseEvent, this.applicationContext);
                 break;
             }
             case "selfDefinedGroupBtn": {
-                GlobalUtil.goNextScene("group_controller.fxml", mouseEvent, this.applicationContext);
+                GlobalUtil.goNextScene("controller/group_controller.fxml", mouseEvent, this.applicationContext);
                 break;
             }
             default: {
