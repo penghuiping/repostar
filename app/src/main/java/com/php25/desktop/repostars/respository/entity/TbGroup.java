@@ -4,6 +4,7 @@ import com.php25.common.db.cnd.annotation.Column;
 import com.php25.common.db.cnd.annotation.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 
@@ -15,9 +16,10 @@ import java.util.Set;
  */
 @Setter
 @Getter
-@Table("t_group")
+@Table("tb_group")
 public class TbGroup implements Persistable<Long> {
 
+    @Id
     private Long id;
 
     private String name;

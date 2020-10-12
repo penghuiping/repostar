@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Table("t_group_gist")
+@Table("tb_group_gist")
 public class TbGistRef {
 
     @Column("gist_id")

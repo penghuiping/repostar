@@ -12,4 +12,6 @@ import java.util.List;
 public interface TbGroupRepository extends BaseDbRepository<TbGroup, Long> {
 
     List<TbGroup> findByLogin(String login);
+
+    TbGroup findByLoginAndGroupId(String login, Long groupId);
 }

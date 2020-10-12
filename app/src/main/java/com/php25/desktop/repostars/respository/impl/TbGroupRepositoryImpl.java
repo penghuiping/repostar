@@ -23,4 +23,9 @@ public class TbGroupRepositoryImpl extends BaseDbRepositoryImpl<TbGroup, Long> i
     public List<TbGroup> findByLogin(String login) {
         return db.cndJdbc(TbGroup.class).whereEq("login", login).select();
     }
+
+    @Override
+    public TbGroup findByLoginAndGroupId(String login, Long groupId) {
+        return db.cndJdbc(TbGroup.class).whereEq("login", login).andEq("id", groupId).single();
+    }
 }

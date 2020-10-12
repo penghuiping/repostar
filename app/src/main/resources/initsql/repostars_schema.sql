@@ -44,3 +44,16 @@ CREATE TABLE if not exists `tb_repos`
     `login`              varchar(255),
     `enable`             int
 );
+
+CREATE TABLE if not exists `tb_group`
+(
+    `id`    bigint primary key,
+    `name`  varchar(255),
+    `login` varchar(255)
+);
+
+CREATE TABLE if not exists `tb_group_gist`
+(
+    `gist_id`  bigint primary key,
+    `group_id` bigint
+);

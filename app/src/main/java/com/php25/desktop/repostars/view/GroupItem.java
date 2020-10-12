@@ -23,9 +23,11 @@ public class GroupItem extends GroupItem0 {
     @FXML
     public ImageView deleteBtn;
 
+    private final Long groupId;
 
-    public GroupItem(String title) {
+    public GroupItem(String title, Long groupId) {
         super();
+        this.groupId = groupId;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(new ClassPathResource("./view/group_item.fxml").getURL());
             fxmlLoader.setController(this);
@@ -57,7 +59,7 @@ public class GroupItem extends GroupItem0 {
         }
     }
 
-    public void initDeleteBtn() {
+    private void initDeleteBtn() {
         try {
             deleteBtn.setImage(new Image(new ClassPathResource("img/error.png").getInputStream()));
         } catch (Exception e) {
@@ -102,9 +104,15 @@ public class GroupItem extends GroupItem0 {
     }
 
 
-
-
     public String getTitle() {
         return titleLabel.getText();
+    }
+
+    public Boolean isEdit() {
+        return this.isEdit;
+    }
+
+    public Long getGroupId() {
+        return this.groupId;
     }
 }

@@ -10,6 +10,7 @@ import com.php25.common.db.specification.Operator;
 import com.php25.common.db.specification.SearchParam;
 import com.php25.common.db.specification.SearchParamBuilder;
 import com.php25.desktop.repostars.constant.AppError;
+import com.php25.desktop.repostars.respository.TbGistRefRepository;
 import com.php25.desktop.repostars.respository.TbGistRepository;
 import com.php25.desktop.repostars.respository.TbGroupRepository;
 import com.php25.desktop.repostars.respository.TbReposRepository;
@@ -73,6 +74,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TbGroupRepository tbGroupRepository;
+
+    @Autowired
+    private TbGistRefRepository tbGistRefRepository;
+
 
     @Override
     public TbUser login(String username, String token) {
@@ -220,5 +225,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<TbGroup> getGroups(String username) {
         return tbGroupRepository.findByLogin(username);
+    }
+
+    @Override
+    public void addGroup(String username, String groupName) {
+        TbGroup tbGroup = new TbGroup();
+        tbGroup.setIsNew(true);
+        tbGroup.setName(groupName);
+        tbGroup.setLogin(username);
+        tbGroup.setId(idGenerator.getSnowflakeId());
+        tbGroupRepository.save(tbGroup);
+    }
+
+    @Override
+    public void deleteGroup(String username, Long groupId) {
+        Long count = tbGistRefRepository.countGistsByGroupId(groupId);
+        if (count > 0) {
+            throw Exceptions.throwBusinessException(AppError.GROUP_NOT_EMPTY_ERROR);
+        }
+        TbGroup tbGroup = tbGroupRepository.findByLoginAndGroupId(username, groupId);
+        if (null != tbGroup) {
+            tbGroupRepository.delete(tbGroup);
+        }
+    }
+
+    @Override
+    public void changeGroupName(String username, Long groupId, String groupName) {
+        TbGroup tbGroup = tbGroupRepository.findByLoginAndGroupId(username, groupId);
+        tbGroup.setName(groupName);
+        tbGroup.setIsNew(false);
+        tbGroupRepository.save(tbGroup);
     }
 }

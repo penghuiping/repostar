@@ -58,4 +58,29 @@ public interface UserService {
      * @return 组列表
      */
     List<TbGroup> getGroups(String username);
+
+    /**
+     * 创建组
+     *
+     * @param username  用户名
+     * @param groupName 组名
+     */
+    void addGroup(String username, String groupName);
+
+    /**
+     * 删除组
+     *
+     * @param username 用户名
+     * @param groupId  组id
+     */
+    void deleteGroup(String username, Long groupId);
+
+    /**
+     * 修改组名
+     *
+     * @param username  用户名
+     * @param groupId   组id
+     * @param groupName 组名
+     */
+    void changeGroupName(String username, Long groupId, String groupName);
 }

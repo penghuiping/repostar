@@ -17,7 +17,7 @@ import org.springframework.core.io.ClassPathResource;
 public class GroupItemAdd extends GroupItem0 {
 
     @FXML
-    private ImageView icon;
+    public ImageView icon;
 
     public GroupItemAdd() {
         super();

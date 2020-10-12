@@ -12,7 +12,11 @@ public enum AppError implements BusinessErrorStatus {
     /**
      * 登入失败
      */
-    LOGIN_ERROR("1", "登入失败");
+    LOGIN_ERROR("1000", "登入失败"),
+    /**
+     * 无法删除此组，组内含有元素
+     */
+    GROUP_NOT_EMPTY_ERROR("1001", "无法删除此组，组内含有元素");
 
     /**
      * 错误码
