@@ -29,38 +29,30 @@ public class GroupController extends BaseController {
     @FXML
     public ScrollPane scrollPane;
 
+    @FXML
+    public Button editBtn;
+
+    private List<GroupItem> groupItems;
+
+    private Boolean isEdit = false;
+
     @Override
     public void start() throws Exception {
         scrollPane.getStyleClass().add("edge-to-edge");
         backBtn.setOnMouseClicked(this);
-        var list = List.of(
+        editBtn.setOnMouseClicked(this);
+        this.groupItems = List.of(
                 new GroupItem("人工智能"),
                 new GroupItem("人工智能1"),
-                new GroupItem("人工智能2"),
-                new GroupItem("人工智能3"),
-                new GroupItem("人工智能4"),
-                new GroupItem("人工智能5"),
-                new GroupItem("人工智能6"),
-                new GroupItem("人工智能7"),
-                new GroupItem("人工智能8"),
-                new GroupItem("人工智能9"),
-                new GroupItem("人工智能10"),
-                new GroupItem("人工智能11"),
-                new GroupItem("人工智能12"),
-                new GroupItem("人工智能13"),
-                new GroupItem("人工智能14"),
-                new GroupItem("人工智能15"),
-                new GroupItem("人工智能16"),
-                new GroupItem("人工智能17"),
-                new GroupItem("人工智能18")
+                new GroupItem("人工智能2")
         );
 
-        list.forEach(groupItem -> groupItem.setOnMouseClicked(mouseEvent -> {
+        this.groupItems.forEach(groupItem -> groupItem.setOnMouseClicked(mouseEvent -> {
             var item = (GroupItem) mouseEvent.getSource();
             log.info("clicked group item:{}", item.getTitle());
         }));
 
-        container.getChildren().addAll(list);
+        container.getChildren().addAll(groupItems);
 
     }
 
@@ -72,9 +64,23 @@ public class GroupController extends BaseController {
                 GlobalUtil.goNextScene("controller/nav_controller.fxml", mouseEvent, this.applicationContext);
                 break;
             }
+            case "editBtn": {
+                toggleEditStatus();
+                break;
+            }
             default: {
                 break;
             }
         }
+    }
+
+    public void toggleEditStatus() {
+        isEdit = !isEdit;
+        this.groupItems.forEach(groupItem -> {
+            groupItem.displayEditStatus(isEdit);
+        });
+        container.getChildren().clear();
+        container.getChildren().addAll(this.groupItems);
+        this.editBtn.setText(isEdit ? "取消" : "编辑");
     }
 }

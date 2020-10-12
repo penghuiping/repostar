@@ -31,6 +31,11 @@
                 <Insets left="10.0"/>
             </GridPane.margin>
         </Button>
+        <Button fx:id="editBtn" mnemonicParsing="false" text="编辑" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+            <GridPane.margin>
+                <Insets right="10.0"/>
+            </GridPane.margin>
+        </Button>
     </GridPane>
     <ScrollPane prefWidth="800" fx:id="scrollPane">
         <FlowPane prefWidth="800" fx:id="container">
