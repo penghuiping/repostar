@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 
@@ -16,7 +15,7 @@ import org.springframework.core.io.ClassPathResource;
  * @date 2020/10/10 21:38
  */
 @Slf4j
-public class GroupItem extends AnchorPane {
+public class GroupItem extends GroupItem0 {
 
     @FXML
     public Label titleLabel;
@@ -24,10 +23,6 @@ public class GroupItem extends AnchorPane {
     @FXML
     public ImageView deleteBtn;
 
-    @FXML
-    public AnchorPane container;
-
-    private Boolean isEdit = false;
 
     public GroupItem(String title) {
         super();
@@ -50,10 +45,11 @@ public class GroupItem extends AnchorPane {
      *
      * @param isEdit true:表示处于编辑状态 false:非编辑状态
      */
+    @Override
     public void displayEditStatus(Boolean isEdit) {
         this.isEdit = isEdit;
         if (this.isEdit) {
-            selfClick();
+            this.selfClick();
             deleteBtn.setVisible(true);
         } else {
             selfClick();
@@ -105,45 +101,7 @@ public class GroupItem extends AnchorPane {
         });
     }
 
-    public void selfClick() {
-        if (!this.isEdit) {
-            container.setStyle("-fx-background-color: white");
 
-            container.setOnMouseMoved(mouseEvent -> {
-                container.setStyle("-fx-background-color: gray");
-            });
-
-            container.setOnMouseExited(mouseEvent -> {
-                container.setStyle("-fx-background-color: white");
-            });
-
-            container.setOnMousePressed(mouseEvent -> {
-                container.setStyle("-fx-background-color: black");
-            });
-
-            container.setOnMouseReleased(mouseEvent -> {
-                container.setStyle("-fx-background-color: gray");
-            });
-        } else {
-            container.setStyle("-fx-background-color: white");
-            container.setOnMouseMoved(mouseEvent -> {
-                container.setStyle("-fx-background-color: white");
-            });
-
-            container.setOnMouseExited(mouseEvent -> {
-                container.setStyle("-fx-background-color: white");
-            });
-
-            container.setOnMousePressed(mouseEvent -> {
-                container.setStyle("-fx-background-color: white");
-            });
-
-            container.setOnMouseReleased(mouseEvent -> {
-                container.setStyle("-fx-background-color: white");
-            });
-        }
-
-    }
 
 
     public String getTitle() {

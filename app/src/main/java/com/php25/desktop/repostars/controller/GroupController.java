@@ -2,6 +2,8 @@ package com.php25.desktop.repostars.controller;
 
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.view.GroupItem;
+import com.php25.desktop.repostars.view.GroupItem0;
+import com.php25.desktop.repostars.view.GroupItemAdd;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -32,7 +34,7 @@ public class GroupController extends BaseController {
     @FXML
     public Button editBtn;
 
-    private List<GroupItem> groupItems;
+    private List<GroupItem0> groupItems;
 
     private Boolean isEdit = false;
 
@@ -44,12 +46,19 @@ public class GroupController extends BaseController {
         this.groupItems = List.of(
                 new GroupItem("人工智能"),
                 new GroupItem("人工智能1"),
-                new GroupItem("人工智能2")
+                new GroupItem("人工智能2"),
+                new GroupItemAdd()
         );
 
         this.groupItems.forEach(groupItem -> groupItem.setOnMouseClicked(mouseEvent -> {
-            var item = (GroupItem) mouseEvent.getSource();
-            log.info("clicked group item:{}", item.getTitle());
+            if (mouseEvent.getSource() instanceof GroupItem) {
+                var item = (GroupItem) mouseEvent.getSource();
+                log.info("clicked group item:{}", item.getTitle());
+            } else {
+                var item = (GroupItemAdd) mouseEvent.getSource();
+                log.info("clicked goup item add");
+            }
+
         }));
 
         container.getChildren().addAll(groupItems);

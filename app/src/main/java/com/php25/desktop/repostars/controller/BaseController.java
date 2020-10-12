@@ -1,6 +1,7 @@
 package com.php25.desktop.repostars.controller;
 
 import com.php25.common.core.exception.BusinessException;
+import com.php25.common.core.exception.IllegalStateException;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -35,7 +36,7 @@ public abstract class BaseController implements EventHandler<MouseEvent> {
     public final void handle(MouseEvent mouseEvent) {
         try {
             this.handleMouseEvent(mouseEvent);
-        } catch (BusinessException | IllegalArgumentException e) {
+        } catch (BusinessException | IllegalArgumentException | IllegalStateException e) {
             GlobalUtil.showErrorMsg(e.getMessage());
         } catch (Exception e) {
             log.error("出错啦", e);
