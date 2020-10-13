@@ -47,7 +47,7 @@ public interface UserService {
      * @param searchKey 搜索关键字
      * @return gist列表
      */
-    List<TbGist> getMyGistUngroup(String username, String searchKey);
+    DataGridPageDto<TbGist> getMyGistUngroup(String username, String searchKey, PageRequest request);
 
     /**
      * 分页搜索

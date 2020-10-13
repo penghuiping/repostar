@@ -212,8 +212,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<TbGist> getMyGistUngroup(String username, String searchKey) {
-        return tbGistRepository.findAllByLoginUnGroup(username, searchKey);
+    public DataGridPageDto<TbGist> getMyGistUngroup(String username, String searchKey, PageRequest request) {
+        return tbGistRepository.findAllByLoginUnGroup(username, searchKey, request.getPageNumber(), request.getPageSize());
     }
 
     @Override

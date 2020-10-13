@@ -4,8 +4,6 @@ import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.common.db.repository.BaseDbRepository;
 import com.php25.desktop.repostars.respository.entity.TbGist;
 
-import java.util.List;
-
 /**
  * @author penghuiping
  * @date 2020/9/23 14:37
@@ -21,7 +19,7 @@ public interface TbGistRepository extends BaseDbRepository<TbGist, Long> {
      * @param pageSize 每页多少条
      * @return gist列表
      */
-    DataGridPageDto<TbGist> findPageByLoginAndGroupId(String login, Long groupId, Integer start, Integer pageSize);
+    DataGridPageDto<TbGist> findPageByLoginAndGroupId(String login, Long groupId, Integer pageNum, Integer pageSize);
 
     /**
      * 查询某个用户的gist数
@@ -39,5 +37,5 @@ public interface TbGistRepository extends BaseDbRepository<TbGist, Long> {
      * @param searchKey 搜索关键字
      * @return gist列表
      */
-    List<TbGist> findAllByLoginUnGroup(String login, String searchKey);
+    DataGridPageDto<TbGist> findAllByLoginUnGroup(String login, String searchKey, Integer pageNum, Integer pageSize);
 }

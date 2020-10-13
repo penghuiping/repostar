@@ -53,10 +53,21 @@ public class TbGistRepositoryImpl extends BaseDbRepositoryImpl<TbGist, Long> imp
     }
 
     @Override
-    public List<TbGist> findAllByLoginUnGroup(String login, String searchKey) {
-        return db.cndJdbc(TbGist.class, "a")
+    public DataGridPageDto<TbGist> findAllByLoginUnGroup(String login, String searchKey, Integer pageNum, Integer pageSize) {
+        var pageIndex = PageUtil.transToStartEnd(pageNum, pageSize);
+
+        Query query = db.cndJdbc(TbGist.class, "a")
                 .whereEq("a.login", login)
-                .andEq("a.isJoinGroup", false).andLike("a.description", "%" + searchKey + "%")
+                .andEq("a.isJoinGroup", false).andLike("a.description", "%" + searchKey + "%");
+
+        List<TbGist> tbGists = query
+                .limit(pageIndex[0], pageSize)
                 .select();
+        Long count = query.count();
+
+        DataGridPageDto<TbGist> result = new DataGridPageDto<>();
+        result.setData(tbGists);
+        result.setRecordsTotal(count);
+        return result;
     }
 }
