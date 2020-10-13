@@ -49,4 +49,12 @@ public class TbGistRepositoryImpl extends BaseDbRepositoryImpl<TbGist, Long> imp
     public Long countByLogin(String login) {
         return db.cndJdbc(TbGist.class).whereEq("login", login).count();
     }
+
+    @Override
+    public List<TbGist> findAllByLoginUnGroup(String login, String searchKey) {
+        return db.cndJdbc(TbGist.class, "a")
+                .whereEq("a.login", login)
+                .andEq("a.isJoinGroup", false).andLike("a.description", "%" + searchKey + "%")
+                .select();
+    }
 }

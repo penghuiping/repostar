@@ -41,6 +41,15 @@ public interface UserService {
     List<TbRepos> getMyRepos(String username, String token);
 
     /**
+     * 获取用户自己的未分组的gist
+     *
+     * @param username  用户名
+     * @param searchKey 搜索关键字
+     * @return gist列表
+     */
+    List<TbGist> getMyGistUngroup(String username, String searchKey);
+
+    /**
      * 分页搜索
      *
      * @param username  用户名

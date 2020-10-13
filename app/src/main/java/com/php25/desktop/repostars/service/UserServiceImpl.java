@@ -210,6 +210,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<TbGist> getMyGistUngroup(String username, String searchKey) {
+        return tbGistRepository.findAllByLoginUnGroup(username, searchKey);
+    }
+
+    @Override
     public DataGridPageDto<TbGist> searchPage(String username, String token, String searchKey, PageRequest request) {
         Long count = tbGistRepository.countByLogin(username);
         if (null == count || count <= 0) {
@@ -224,9 +229,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DataGridPageDto<TbGist> searchPageByGroupId(String username, String token, Long groupId, PageRequest request) {
-        var result = tbGistRepository
+        return tbGistRepository
                 .findPageByLoginAndGroupId(username, groupId, request.getPageNumber(), request.getPageSize());
-        return result;
     }
 
     @Override

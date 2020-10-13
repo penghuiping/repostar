@@ -4,6 +4,8 @@ import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.common.db.repository.BaseDbRepository;
 import com.php25.desktop.repostars.respository.entity.TbGist;
 
+import java.util.List;
+
 /**
  * @author penghuiping
  * @date 2020/9/23 14:37
@@ -28,4 +30,14 @@ public interface TbGistRepository extends BaseDbRepository<TbGist, Long> {
      * @return gist数
      */
     Long countByLogin(String login);
+
+
+    /**
+     * 查询用户所有还没分组的gist
+     *
+     * @param login     用户名
+     * @param searchKey 搜索关键字
+     * @return gist列表
+     */
+    List<TbGist> findAllByLoginUnGroup(String login, String searchKey);
 }

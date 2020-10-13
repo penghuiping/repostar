@@ -44,6 +44,14 @@ public abstract class GlobalUtil {
         return previousScene;
     }
 
+    public static Scene goNextScene(Event event, Scene scene) {
+        Stage stage = GlobalUtil.getCurrentStage(event);
+        Scene previousScene = stage.getScene();
+        stage.setScene(scene);
+        stage.show();
+        return previousScene;
+    }
+
     public static Stage getCurrentStage(Event event) {
         return (Stage) ((Node) event.getSource()).getScene().getWindow();
     }

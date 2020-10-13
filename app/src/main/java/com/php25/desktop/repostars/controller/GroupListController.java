@@ -8,6 +8,7 @@ import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.AbstractRepoListCell;
 import com.php25.desktop.repostars.view.RepoListCell;
 import com.php25.desktop.repostars.view.RepoListCellAdd;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -52,6 +53,7 @@ public class GroupListController extends BaseController {
 
     @Override
     public void start() throws Exception {
+        isEdit = false;
         scrollPane.getStyleClass().add("edge-to-edge");
         backBtn.setOnMouseClicked(this);
         editBtn.setOnMouseClicked(this);
@@ -99,6 +101,11 @@ public class GroupListController extends BaseController {
             editBtn.setText("编辑");
             repoListCellAdd.setVisible(false);
         }
+        repoListCellAdd.setOnMouseClicked(mouseEvent -> {
+            Scene previous = GlobalUtil.goNextScene("controller/group_list_add_controller.fxml", mouseEvent, this.applicationContext);
+            GroupListAddController controller = this.applicationContext.getBean(GroupListAddController.class);
+            controller.previousScene = previous;
+        });
         container.getChildren().addAll(this.listCells);
     }
 }
