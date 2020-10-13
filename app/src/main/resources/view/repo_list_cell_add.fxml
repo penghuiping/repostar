@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      xmlns="http://javafx.com/javafx"
+      prefHeight="90.0" prefWidth="800.0" alignment="CENTER" stylesheets="@../css/repo_list_cell.css">
+    <VBox style="-fx-border-color: black" styleClass="cell" prefHeight="90.0" maxWidth="90.0" alignment="CENTER">
+        <ImageView fx:id="icon" fitHeight="40.0" fitWidth="40.0"/>
+    </VBox>
+    <padding>
+        <Insets bottom="3.0" top="3.0"/>
+    </padding>
+</VBox>

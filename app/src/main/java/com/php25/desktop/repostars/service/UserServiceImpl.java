@@ -223,6 +223,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public DataGridPageDto<TbGist> searchPageByGroupId(String username, String token, Long groupId, PageRequest request) {
+        var result = tbGistRepository
+                .findPageByLoginAndGroupId(username, groupId, request.getPageNumber(), request.getPageSize());
+        return result;
+    }
+
+    @Override
     public List<TbGroup> getGroups(String username) {
         return tbGroupRepository.findByLogin(username);
     }

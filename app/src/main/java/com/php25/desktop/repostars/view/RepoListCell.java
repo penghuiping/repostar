@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 
@@ -13,7 +12,7 @@ import org.springframework.core.io.ClassPathResource;
  * @date 2020/10/9 11:06
  */
 @Slf4j
-public class RepoListCell extends Pane {
+public class RepoListCell extends AbstractRepoListCell {
 
     @FXML
     public Label titleLabel;

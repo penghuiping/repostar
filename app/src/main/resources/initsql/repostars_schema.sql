@@ -26,7 +26,8 @@ CREATE TABLE if not exists `tb_gist`
     `create_time`        datetime,
     `last_modified_time` datetime,
     `login`              varchar(255),
-    `enable`             int
+    `enable`             int,
+    `is_join_group`      bit
 );
 
 CREATE TABLE if not exists `tb_repos`

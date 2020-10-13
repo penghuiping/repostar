@@ -41,7 +41,7 @@ public interface UserService {
     List<TbRepos> getMyRepos(String username, String token);
 
     /**
-     * 分页搜搜
+     * 分页搜索
      *
      * @param username  用户名
      * @param token     令牌
@@ -50,6 +50,18 @@ public interface UserService {
      * @return 分页数据
      */
     DataGridPageDto<TbGist> searchPage(String username, String token, String searchKey, PageRequest request);
+
+
+    /**
+     * 分页搜索
+     *
+     * @param username 用户名
+     * @param token    令牌
+     * @param groupId  组id
+     * @param request  分页请求
+     * @return 分页数据
+     */
+    DataGridPageDto<TbGist> searchPageByGroupId(String username, String token, Long groupId, PageRequest request);
 
     /**
      * 获取用户创建的组

@@ -1,9 +1,8 @@
 package com.php25.desktop.repostars.respository;
 
+import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.common.db.repository.BaseDbRepository;
 import com.php25.desktop.repostars.respository.entity.TbGist;
-
-import java.util.List;
 
 /**
  * @author penghuiping
@@ -11,7 +10,22 @@ import java.util.List;
  */
 public interface TbGistRepository extends BaseDbRepository<TbGist, Long> {
 
-    List<TbGist> findPageByLogin(String login, Integer start, Integer pageSize);
+    /**
+     * 分页查询
+     *
+     * @param login    登入名
+     * @param groupId  组id
+     * @param start    第几页
+     * @param pageSize 每页多少条
+     * @return gist列表
+     */
+    DataGridPageDto<TbGist> findPageByLoginAndGroupId(String login, Long groupId, Integer start, Integer pageSize);
 
+    /**
+     * 查询某个用户的gist数
+     *
+     * @param login 登入名
+     * @return gist数
+     */
     Long countByLogin(String login);
 }

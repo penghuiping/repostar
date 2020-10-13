@@ -46,6 +46,9 @@ public class TbGist implements Persistable<Long> {
 
     private Integer enable;
 
+    @Column("is_join_group")
+    private Boolean isJoinGroup = false;
+
     @Transient
     private Boolean isNew;
 

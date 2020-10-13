@@ -36,7 +36,7 @@ public class GroupController extends BaseController {
     public ScrollPane scrollPane;
     public Button editBtn;
 
-    private List<GroupItem0> groupItems = new ArrayList<>();
+    private List<GroupItem0> groupItems;
 
     private Boolean isEdit = false;
 
@@ -75,6 +75,7 @@ public class GroupController extends BaseController {
     }
 
     private void loadGroupItem() {
+        this.groupItems = new ArrayList<>();
         var groupItemAdd = new GroupItemAdd();
         var user = localStorage.getLoginUser();
         List<TbGroup> groups = userService.getGroups(user.getLogin());
@@ -106,7 +107,9 @@ public class GroupController extends BaseController {
                     //非编辑状态点击
                     var item = (GroupItem) mouseEvent.getSource();
                     if (!item.isEdit()) {
+
                         localStorage.put("group_list_controller_title", item.getTitle());
+                        localStorage.put("group_list_controller_group_id", item.getGroupId() + "");
                         GlobalUtil.goNextScene("controller/group_list_controller.fxml", mouseEvent, this.applicationContext);
                     }
                 } else {
