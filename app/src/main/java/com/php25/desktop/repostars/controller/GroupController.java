@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,49 @@ public class GroupController extends BaseController {
                     break;
                 }
             }
+        } else if (mouseEvent.getSource() instanceof ImageView) {
+            ImageView imageView = (ImageView) mouseEvent.getSource();
+            switch (imageView.getId()) {
+                case "deleteBtn": {
+                    //编辑状态删除
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("注意");
+                    alert.setHeaderText("确定要删除么");
+                    Optional<ButtonType> buttonType = alert.showAndWait();
+                    if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
+                        var user = localStorage.getLoginUser();
+                        Long groupId = (Long) imageView.getUserData();
+                        userService.deleteGroup(user.getLogin(), groupId);
+                        this.loadGroupItem();
+                        setEditStatus(true);
+                    }
+                }
+                default: {
+                    break;
+                }
+            }
+        } else if (mouseEvent.getSource() instanceof GroupItem) {
+            //非编辑状态点击
+            var item = (GroupItem) mouseEvent.getSource();
+            if (!item.isEdit()) {
+                localStorage.put("group_list_controller_title", item.getTitle());
+                localStorage.put("group_list_controller_group_id", item.getGroupId() + "");
+                GlobalUtil.goNextScene("controller/group_list_controller.fxml", mouseEvent, this.applicationContext);
+            }
+        } else if (mouseEvent.getSource() instanceof GroupItemAdd) {
+            //编辑状态新增
+            var item = (GroupItemAdd) mouseEvent.getSource();
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("注意");
+            dialog.setHeaderText("请输入组名");
+            dialog.setContentText("组名:");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(groupName -> {
+                var user = localStorage.getLoginUser();
+                userService.addGroup(user.getLogin(), groupName);
+                this.loadGroupItem();
+                setEditStatus(true);
+            });
         }
     }
 
@@ -88,45 +132,10 @@ public class GroupController extends BaseController {
         this.groupItems.forEach(groupItem -> {
             if (groupItem instanceof GroupItem) {
                 var item = (GroupItem) groupItem;
-                item.deleteBtn.setOnMouseClicked(mouseEvent -> {
-                    //编辑状态删除
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("注意");
-                    alert.setHeaderText("确定要删除么");
-                    Optional<ButtonType> buttonType = alert.showAndWait();
-                    if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
-                        userService.deleteGroup(user.getLogin(), item.getGroupId());
-                        this.loadGroupItem();
-                        setEditStatus(true);
-                    }
-                });
+                item.deleteBtn.setOnMouseClicked(GroupController.this);
+                item.deleteBtn.setUserData(item.getGroupId());
             }
-
-            groupItem.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getSource() instanceof GroupItem) {
-                    //非编辑状态点击
-                    var item = (GroupItem) mouseEvent.getSource();
-                    if (!item.isEdit()) {
-
-                        localStorage.put("group_list_controller_title", item.getTitle());
-                        localStorage.put("group_list_controller_group_id", item.getGroupId() + "");
-                        GlobalUtil.goNextScene("controller/group_list_controller.fxml", mouseEvent, this.applicationContext);
-                    }
-                } else {
-                    //编辑状态新增
-                    var item = (GroupItemAdd) mouseEvent.getSource();
-                    TextInputDialog dialog = new TextInputDialog();
-                    dialog.setTitle("注意");
-                    dialog.setHeaderText("请输入组名");
-                    dialog.setContentText("组名:");
-                    Optional<String> result = dialog.showAndWait();
-                    result.ifPresent(groupName -> {
-                        userService.addGroup(user.getLogin(), groupName);
-                        this.loadGroupItem();
-                        setEditStatus(true);
-                    });
-                }
-            });
+            groupItem.setOnMouseClicked(GroupController.this);
         });
 
     }

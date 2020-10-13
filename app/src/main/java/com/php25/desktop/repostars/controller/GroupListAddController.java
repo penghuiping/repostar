@@ -85,11 +85,14 @@ public class GroupListAddController extends BaseController {
         TbUser tbUser = this.localStorage.getLoginUser();
         final AtomicInteger pageNum = new AtomicInteger(1);
         Integer pageSize = 10;
-
-        DataGridPageDto<TbGist> dataGridPageDto = userService.getMyGistUngroup(tbUser.getLogin(), searchKey, PageRequest.of(pageNum.get(), pageSize));
+        DataGridPageDto<TbGist> dataGridPageDto = userService.getMyGistUngroup(tbUser.getLogin(), searchKey,
+                PageRequest.of(pageNum.get(), pageSize));
         List<TbGist> tbGists = dataGridPageDto.getData();
         var list = tbGists.stream()
-                .map(tbGist -> new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + ""))
+                .map(tbGist -> new RepoListCell(tbGist.getId(), tbGist.getFullName()
+                        , tbGist.getDescription()
+                        , tbGist.getWatchers().toString()
+                        , tbGist.getForks().toString()))
                 .collect(Collectors.toList());
         list.forEach(repoListCell -> {
             repoListCell.setOnMouseClicked(mouseEvent -> {
@@ -104,12 +107,19 @@ public class GroupListAddController extends BaseController {
         this.scrollPane.setOnScroll(scrollEvent -> {
             //下滑
             if (scrollEvent.getDeltaY() < 0 && pageNum.get() < dataGridPageDto.getRecordsTotal() / pageSize) {
-                var dataGridPageDto1 = userService.getMyGistUngroup(tbUser.getLogin(), searchKey, PageRequest.of(pageNum.incrementAndGet(), pageSize));
+                var dataGridPageDto1 = userService.getMyGistUngroup(tbUser.getLogin(), searchKey,
+                        PageRequest.of(pageNum.incrementAndGet(), pageSize));
                 List<TbGist> gistList1 = dataGridPageDto1.getData();
                 if (null != gistList1 && !gistList1.isEmpty()) {
                     List<RepoListCell> repoListCells = new ArrayList<>();
                     for (TbGist tbGist : gistList1) {
-                        RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+                        RepoListCell repoListCell = new RepoListCell(
+                                tbGist.getId(),
+                                tbGist.getFullName(),
+                                tbGist.getDescription(),
+                                tbGist.getWatchers().toString(),
+                                tbGist.getForks().toString()
+                        );
                         repoListCell.setOnMouseClicked(mouseEvent -> {
                             userService.addOneGistIntoGroup(repoListCell.id, this.groupId);
                             GlobalUtil.goNextScene(mouseEvent, this.previousScene);

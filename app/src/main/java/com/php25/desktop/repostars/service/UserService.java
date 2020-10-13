@@ -112,4 +112,12 @@ public interface UserService {
      * @param groupId
      */
     void addOneGistIntoGroup(Long gistId, Long groupId);
+
+    /**
+     * 从组中删除一个gist
+     *
+     * @param gistId
+     * @param groupId
+     */
+    void deleteOneGistFromGroup(Long gistId, Long groupId);
 }

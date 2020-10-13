@@ -283,4 +283,9 @@ public class UserServiceImpl implements UserService {
         tbGistRepository.save(tbGist);
         tbGistRefRepository.save(tbGistRef);
     }
+
+    @Override
+    public void deleteOneGistFromGroup(Long gistId, Long groupId) {
+
+    }
 }

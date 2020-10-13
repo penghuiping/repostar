@@ -9,7 +9,9 @@ import com.php25.desktop.repostars.view.AbstractRepoListCell;
 import com.php25.desktop.repostars.view.RepoListCell;
 import com.php25.desktop.repostars.view.RepoListCellAdd;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -65,30 +68,60 @@ public class GroupListController extends BaseController {
 
     @Override
     public void handleMouseEvent(MouseEvent mouseEvent) throws Exception {
-        Button button = (Button) mouseEvent.getSource();
-        switch (button.getId()) {
-            case "backBtn": {
-                GlobalUtil.goNextScene("controller/group_controller.fxml", mouseEvent, this.applicationContext);
-                break;
+        if (mouseEvent.getSource() instanceof Button) {
+            Button button = (Button) mouseEvent.getSource();
+            switch (button.getId()) {
+                case "backBtn": {
+                    GlobalUtil.goNextScene("controller/group_controller.fxml", mouseEvent, this.applicationContext);
+                    break;
+                }
+                case "editBtn": {
+                    this.isEdit = !isEdit;
+                    loadEditStatus();
+                    break;
+                }
+                default: {
+                    break;
+                }
             }
-            case "editBtn": {
-                this.isEdit = !isEdit;
-                loadEditStatus();
-                break;
-            }
-            default: {
-                break;
+        } else if (mouseEvent.getSource() instanceof RepoListCellAdd) {
+            Scene previous = GlobalUtil.goNextScene("controller/group_list_add_controller.fxml", mouseEvent, this.applicationContext);
+            GroupListAddController controller = this.applicationContext.getBean(GroupListAddController.class);
+            controller.previousScene = previous;
+            controller.groupId = this.groupId;
+        } else if (mouseEvent.getSource() instanceof RepoListCell) {
+            var cell = (RepoListCell) mouseEvent.getSource();
+            if (cell.isEdit) {
+                //编辑状态删除操作
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("注意");
+                alert.setHeaderText("确定把此项从此分组移除么");
+                Optional<ButtonType> buttonType = alert.showAndWait();
+                if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
+                    var user = localStorage.getLoginUser();
+                    userService.deleteOneGistFromGroup(cell.id, this.groupId);
+                    this.loadEditStatus();
+                }
+            } else {
+
             }
         }
+
     }
 
     public void loadEditStatus() {
         container.getChildren().clear();
         this.listCells = new ArrayList<>();
         TbUser tbUser = localStorage.getLoginUser();
-        var tbGistDataGridPageDto = userService.searchPageByGroupId(tbUser.getLogin(), tbUser.getToken(), this.groupId, PageRequest.of(1, 20));
+        var tbGistDataGridPageDto = userService.searchPageByGroupId(tbUser.getLogin(),
+                tbUser.getToken(), this.groupId, PageRequest.of(1, 20));
         var repoListCells = tbGistDataGridPageDto.getData().stream().map(tbGist -> {
-            RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+            RepoListCell repoListCell = new RepoListCell(
+                    tbGist.getId(),
+                    tbGist.getFullName(),
+                    tbGist.getDescription(),
+                    tbGist.getWatchers().toString(),
+                    tbGist.getForks().toString());
             return repoListCell;
         }).collect(Collectors.toList());
         this.listCells.addAll(repoListCells);
@@ -96,17 +129,17 @@ public class GroupListController extends BaseController {
         this.listCells.add(repoListCellAdd);
         if (this.isEdit) {
             editBtn.setText("取消");
-            repoListCellAdd.setVisible(true);
+            this.listCells.forEach(abstractRepoListCell -> {
+                abstractRepoListCell.loadEditStatus(this.isEdit);
+                abstractRepoListCell.setOnMouseClicked(GroupListController.this);
+            });
         } else {
             editBtn.setText("编辑");
-            repoListCellAdd.setVisible(false);
+            this.listCells.forEach(abstractRepoListCell -> {
+                abstractRepoListCell.loadEditStatus(this.isEdit);
+                abstractRepoListCell.setOnMouseClicked(GroupListController.this);
+            });
         }
-        repoListCellAdd.setOnMouseClicked(mouseEvent -> {
-            Scene previous = GlobalUtil.goNextScene("controller/group_list_add_controller.fxml", mouseEvent, this.applicationContext);
-            GroupListAddController controller = this.applicationContext.getBean(GroupListAddController.class);
-            controller.previousScene = previous;
-            controller.groupId = this.groupId;
-        });
         container.getChildren().addAll(this.listCells);
     }
 }

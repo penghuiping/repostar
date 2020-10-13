@@ -78,12 +78,16 @@ public class AllStarRepoController extends BaseController {
         Integer pageSize = 50;
         TbUser tbUser = localStorage.getLoginUser();
         //初始加载
-        this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText, PageRequest.of(pageNum.get(), pageSize));
+        this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText,
+                PageRequest.of(pageNum.get(), pageSize));
         List<TbGist> gistList = dataGridPageDto.getData();
         if (null != gistList && !gistList.isEmpty()) {
             List<RepoListCell> repoListCells = new ArrayList<>();
             for (TbGist tbGist : gistList) {
-                RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+                RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(),
+                        tbGist.getDescription(),
+                        tbGist.getWatchers().toString(),
+                        tbGist.getForks().toString());
                 repoListCells.add(repoListCell);
             }
             container.getChildren().addAll(repoListCells);
@@ -94,12 +98,16 @@ public class AllStarRepoController extends BaseController {
             if (scrollEvent.getDeltaY() < 0 && pageNum.get() < dataGridPageDto.getRecordsTotal() / pageSize) {
                 log.info("下划");
                 pageNum.set(pageNum.get() + 1);
-                this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText, PageRequest.of(pageNum.get(), pageSize));
+                this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText,
+                        PageRequest.of(pageNum.get(), pageSize));
                 List<TbGist> gistList1 = dataGridPageDto.getData();
                 if (null != gistList1 && !gistList1.isEmpty()) {
                     List<RepoListCell> repoListCells = new ArrayList<>();
                     for (TbGist tbGist : gistList1) {
-                        RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+                        RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(),
+                                tbGist.getDescription(),
+                                tbGist.getWatchers().toString(),
+                                tbGist.getForks().toString());
                         repoListCells.add(repoListCell);
                     }
                     container.getChildren().addAll(repoListCells);

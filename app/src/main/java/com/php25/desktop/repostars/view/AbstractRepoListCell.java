@@ -8,5 +8,7 @@ import javafx.scene.layout.Pane;
  */
 public abstract class AbstractRepoListCell extends Pane {
 
-    private Boolean isEdit;
+    public Boolean isEdit;
+
+    public abstract void loadEditStatus(Boolean isEdit);
 }

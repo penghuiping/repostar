@@ -4,8 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+
 
 /**
  * @author penghuiping
@@ -23,10 +26,16 @@ public class RepoListCell extends AbstractRepoListCell {
     @FXML
     public Label starLabel;
 
+    @FXML
+    public Label forkLabel;
+
+    @FXML
+    public ImageView deleteAndArrowBtn;
+
     public Long id;
 
 
-    public RepoListCell(Long id, String title, String description, String star) {
+    public RepoListCell(Long id, String title, String description, String star, String fork) {
         super();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(new ClassPathResource("./view/repo_list_cell.fxml").getURL());
@@ -36,9 +45,31 @@ public class RepoListCell extends AbstractRepoListCell {
             titleLabel.setText(title);
             descLabel.setText(description);
             starLabel.setText(star);
+            forkLabel.setText(fork);
             this.id = id;
+            loadEditStatus(false);
         } catch (Exception e) {
             log.error("出错啦", e);
+        }
+    }
+
+    @Override
+    public void loadEditStatus(Boolean isEdit) {
+        this.isEdit = isEdit;
+        if (!this.isEdit) {
+            //正常状态
+            try {
+                deleteAndArrowBtn.setImage(new Image(new ClassPathResource("img/right_arrow.png").getInputStream()));
+            } catch (Exception e) {
+                log.error("出错啦", e);
+            }
+        } else {
+            //编辑状态
+            try {
+                deleteAndArrowBtn.setImage(new Image(new ClassPathResource("img/error_red.png").getInputStream()));
+            } catch (Exception e) {
+                log.error("出错啦", e);
+            }
         }
     }
 }

@@ -26,10 +26,15 @@ public class RepoListCellAdd extends AbstractRepoListCell {
             Parent parent = fxmlLoader.load();
             this.getChildren().add(parent);
             this.icon.setImage(new Image(new ClassPathResource("img/add.png").getInputStream()));
-
-
+            this.loadEditStatus(false);
         } catch (Exception e) {
             log.error("出错啦", e);
         }
+    }
+
+    @Override
+    public void loadEditStatus(Boolean isEdit) {
+        this.isEdit = isEdit;
+        this.setVisible(isEdit);
     }
 }
