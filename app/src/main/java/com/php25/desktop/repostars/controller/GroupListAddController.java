@@ -110,6 +110,12 @@ public class GroupListAddController extends BaseController {
                     List<RepoListCell> repoListCells = new ArrayList<>();
                     for (TbGist tbGist : gistList1) {
                         RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+                        repoListCell.setOnMouseClicked(mouseEvent -> {
+                            userService.addOneGistIntoGroup(repoListCell.id, this.groupId);
+                            GlobalUtil.goNextScene(mouseEvent, this.previousScene);
+                            GroupListController controller = this.applicationContext.getBean(GroupListController.class);
+                            controller.loadEditStatus();
+                        });
                         repoListCells.add(repoListCell);
                     }
                     container.getChildren().addAll(repoListCells);
