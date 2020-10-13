@@ -1,6 +1,7 @@
 package com.php25.desktop.repostars.respository.impl;
 
 import com.php25.common.core.dto.DataGridPageDto;
+import com.php25.common.core.util.PageUtil;
 import com.php25.common.db.Db;
 import com.php25.common.db.cnd.Query;
 import com.php25.common.db.repository.BaseDbRepositoryImpl;
@@ -37,7 +38,8 @@ public class TbGistRepositoryImpl extends BaseDbRepositoryImpl<TbGist, Long> imp
                 return query;
             }
         };
-        List<TbGist> content = supplier.get().limit(start, pageSize).select();
+        var pageIndex = PageUtil.transToStartEnd(start, pageSize);
+        List<TbGist> content = supplier.get().limit(pageIndex[0], pageSize).select();
         var count = supplier.get().count();
         var result = new DataGridPageDto<TbGist>();
         result.setData(content);
