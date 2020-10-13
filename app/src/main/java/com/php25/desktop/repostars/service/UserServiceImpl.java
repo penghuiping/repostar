@@ -16,6 +16,7 @@ import com.php25.desktop.repostars.respository.TbGroupRepository;
 import com.php25.desktop.repostars.respository.TbReposRepository;
 import com.php25.desktop.repostars.respository.TbUserRepository;
 import com.php25.desktop.repostars.respository.entity.TbGist;
+import com.php25.desktop.repostars.respository.entity.TbGistRef;
 import com.php25.desktop.repostars.respository.entity.TbGroup;
 import com.php25.desktop.repostars.respository.entity.TbRepos;
 import com.php25.desktop.repostars.respository.entity.TbUser;
@@ -31,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -266,5 +268,19 @@ public class UserServiceImpl implements UserService {
         tbGroup.setName(groupName);
         tbGroup.setIsNew(false);
         tbGroupRepository.save(tbGroup);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addOneGistIntoGroup(Long gistId, Long groupId) {
+        TbGistRef tbGistRef = new TbGistRef();
+        tbGistRef.setGistId(gistId);
+        tbGistRef.setGroupId(groupId);
+        var tbGistOptional = tbGistRepository.findById(gistId);
+        var tbGist = tbGistOptional.get();
+        tbGist.setIsJoinGroup(true);
+        tbGist.setIsNew(false);
+        tbGistRepository.save(tbGist);
+        tbGistRefRepository.save(tbGistRef);
     }
 }

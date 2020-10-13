@@ -83,7 +83,7 @@ public class AllStarRepoController extends BaseController {
         if (null != gistList && !gistList.isEmpty()) {
             List<RepoListCell> repoListCells = new ArrayList<>();
             for (TbGist tbGist : gistList) {
-                RepoListCell repoListCell = new RepoListCell(tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+                RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
                 repoListCells.add(repoListCell);
             }
             container.getChildren().addAll(repoListCells);
@@ -99,7 +99,7 @@ public class AllStarRepoController extends BaseController {
                 if (null != gistList1 && !gistList1.isEmpty()) {
                     List<RepoListCell> repoListCells = new ArrayList<>();
                     for (TbGist tbGist : gistList1) {
-                        RepoListCell repoListCell = new RepoListCell(tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+                        RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
                         repoListCells.add(repoListCell);
                     }
                     container.getChildren().addAll(repoListCells);

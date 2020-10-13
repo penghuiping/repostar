@@ -39,7 +39,7 @@ public class MyRepoController extends BaseController {
         List<TbRepos> tbReposList = userService.getMyRepos(tbUser.getLogin(), tbUser.getToken());
         if (null != tbReposList && !tbReposList.isEmpty()) {
             for (TbRepos tbRepos : tbReposList) {
-                RepoListCell repoListCell = new RepoListCell(tbRepos.getFullName(), tbRepos.getDescription(), tbRepos.getWatchers() + "");
+                RepoListCell repoListCell = new RepoListCell(tbRepos.getId(), tbRepos.getFullName(), tbRepos.getDescription(), tbRepos.getWatchers() + "");
                 container.getChildren().add(repoListCell);
             }
         }

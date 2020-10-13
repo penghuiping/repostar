@@ -43,6 +43,8 @@ public class GroupListAddController extends BaseController {
     @Autowired
     private LocalStorage localStorage;
 
+    public Long groupId;
+
 
     @Override
     public void start() throws Exception {
@@ -79,8 +81,16 @@ public class GroupListAddController extends BaseController {
         TbUser tbUser = localStorage.getLoginUser();
         List<TbGist> tbGists = userService.getMyGistUngroup(tbUser.getLogin(), searchKey);
         var list = tbGists.stream()
-                .map(tbGist -> new RepoListCell(tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + ""))
+                .map(tbGist -> new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + ""))
                 .collect(Collectors.toList());
+        list.forEach(repoListCell -> {
+            repoListCell.setOnMouseClicked(mouseEvent -> {
+                userService.addOneGistIntoGroup(repoListCell.id, this.groupId);
+                GlobalUtil.goNextScene(mouseEvent, this.previousScene);
+                GroupListController controller = this.applicationContext.getBean(GroupListController.class);
+                controller.loadEditStatus();
+            });
+        });
         container.getChildren().addAll(list);
     }
 }

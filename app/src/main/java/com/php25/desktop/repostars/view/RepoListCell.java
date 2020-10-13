@@ -23,8 +23,10 @@ public class RepoListCell extends AbstractRepoListCell {
     @FXML
     public Label starLabel;
 
+    public Long id;
 
-    public RepoListCell(String title, String description, String star) {
+
+    public RepoListCell(Long id, String title, String description, String star) {
         super();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(new ClassPathResource("./view/repo_list_cell.fxml").getURL());
@@ -34,9 +36,9 @@ public class RepoListCell extends AbstractRepoListCell {
             titleLabel.setText(title);
             descLabel.setText(description);
             starLabel.setText(star);
+            this.id = id;
         } catch (Exception e) {
             log.error("出错啦", e);
         }
-
     }
 }

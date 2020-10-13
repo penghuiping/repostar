@@ -104,4 +104,12 @@ public interface UserService {
      * @param groupName 组名
      */
     void changeGroupName(String username, Long groupId, String groupName);
+
+    /**
+     * 往组中加入一个gist
+     *
+     * @param gistId
+     * @param groupId
+     */
+    void addOneGistIntoGroup(Long gistId, Long groupId);
 }

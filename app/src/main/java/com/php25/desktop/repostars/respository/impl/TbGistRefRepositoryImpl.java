@@ -20,4 +20,9 @@ public class TbGistRefRepositoryImpl implements TbGistRefRepository {
     public Long countGistsByGroupId(Long groupId) {
         return db.cndJdbc(TbGistRef.class).whereEq("group_id", groupId).count();
     }
+
+    @Override
+    public void save(TbGistRef tbGistRef) {
+        db.cndJdbc(TbGistRef.class).insert(tbGistRef);
+    }
 }

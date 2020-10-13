@@ -82,13 +82,13 @@ public class GroupListController extends BaseController {
         }
     }
 
-    private void loadEditStatus() {
+    public void loadEditStatus() {
         container.getChildren().clear();
         this.listCells = new ArrayList<>();
         TbUser tbUser = localStorage.getLoginUser();
         var tbGistDataGridPageDto = userService.searchPageByGroupId(tbUser.getLogin(), tbUser.getToken(), this.groupId, PageRequest.of(1, 20));
         var repoListCells = tbGistDataGridPageDto.getData().stream().map(tbGist -> {
-            RepoListCell repoListCell = new RepoListCell(tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
+            RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(), tbGist.getDescription(), tbGist.getForks() + "");
             return repoListCell;
         }).collect(Collectors.toList());
         this.listCells.addAll(repoListCells);
@@ -105,6 +105,7 @@ public class GroupListController extends BaseController {
             Scene previous = GlobalUtil.goNextScene("controller/group_list_add_controller.fxml", mouseEvent, this.applicationContext);
             GroupListAddController controller = this.applicationContext.getBean(GroupListAddController.class);
             controller.previousScene = previous;
+            controller.groupId = this.groupId;
         });
         container.getChildren().addAll(this.listCells);
     }
