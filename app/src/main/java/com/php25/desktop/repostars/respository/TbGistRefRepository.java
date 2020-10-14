@@ -11,4 +11,6 @@ public interface TbGistRefRepository {
     Long countGistsByGroupId(Long groupId);
 
     void save(TbGistRef tbGistRef);
+
+    void delete(TbGistRef tbGistRef);
 }

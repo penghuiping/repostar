@@ -25,4 +25,12 @@ public class TbGistRefRepositoryImpl implements TbGistRefRepository {
     public void save(TbGistRef tbGistRef) {
         db.cndJdbc(TbGistRef.class).insert(tbGistRef);
     }
+
+    @Override
+    public void delete(TbGistRef tbGistRef) {
+        db.cndJdbc(TbGistRef.class)
+                .whereEq("gistId", tbGistRef.getGistId())
+                .andEq("groupId", tbGistRef.getGroupId())
+                .delete();
+    }
 }

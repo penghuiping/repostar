@@ -285,7 +285,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteOneGistFromGroup(Long gistId, Long groupId) {
+        TbGistRef tbGistRef = new TbGistRef();
+        tbGistRef.setGistId(gistId);
+        tbGistRef.setGroupId(groupId);
+        tbGistRefRepository.delete(tbGistRef);
 
+        var tbGistOptional = tbGistRepository.findById(gistId);
+        var tbGist = tbGistOptional.get();
+        tbGist.setIsJoinGroup(false);
+        tbGist.setIsNew(false);
+        tbGistRepository.save(tbGist);
     }
 }
