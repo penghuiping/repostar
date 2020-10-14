@@ -1,6 +1,5 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.common.core.util.StringUtil;
 import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.desktop.repostars.service.UserService;
 import com.php25.desktop.repostars.util.GlobalUtil;
@@ -50,9 +49,9 @@ public class GroupListController extends BaseController {
 
     private List<AbstractRepoListCell> listCells;
 
-    private String groupName;
+    public String groupName;
 
-    private Long groupId;
+    public Long groupId;
 
     @Override
     public void start() throws Exception {
@@ -60,8 +59,6 @@ public class GroupListController extends BaseController {
         scrollPane.getStyleClass().add("edge-to-edge");
         backBtn.setOnMouseClicked(this);
         editBtn.setOnMouseClicked(this);
-        this.groupName = localStorage.get("group_list_controller_title");
-        this.groupId = StringUtil.isBlank(localStorage.get("group_list_controller_group_id")) ? null : Long.parseLong(localStorage.get("group_list_controller_group_id"));
         titleLabel.setText(this.groupName);
         loadEditStatus();
     }

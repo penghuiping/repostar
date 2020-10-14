@@ -21,4 +21,6 @@ public interface GistManager {
      * @return starred项目列表
      */
     List<Gist> getAllStarredGist(String username, String token, Integer pageNum, Integer pageSize);
+
+
 }

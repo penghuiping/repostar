@@ -97,9 +97,10 @@ public class GroupController extends BaseController {
             //非编辑状态点击
             var item = (GroupItem) mouseEvent.getSource();
             if (!item.isEdit()) {
-                localStorage.put("group_list_controller_title", item.getTitle());
-                localStorage.put("group_list_controller_group_id", item.getGroupId() + "");
                 GlobalUtil.goNextScene("controller/group_list_controller.fxml", mouseEvent, this.applicationContext);
+                var controller = this.applicationContext.getBean(GroupListController.class);
+                controller.groupId = item.getGroupId();
+                controller.groupName = item.getTitle();
             }
         } else if (mouseEvent.getSource() instanceof GroupItemAdd) {
             //编辑状态新增

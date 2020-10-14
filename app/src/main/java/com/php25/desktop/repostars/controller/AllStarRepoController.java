@@ -7,6 +7,7 @@ import com.php25.desktop.repostars.service.UserService;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.RepoListCell;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -54,22 +55,30 @@ public class AllStarRepoController extends BaseController {
 
     @Override
     public void handleMouseEvent(MouseEvent mouseEvent) throws Exception {
-        Button button = (Button) mouseEvent.getSource();
-        switch (button.getId()) {
-            case "backBtn": {
-                GlobalUtil.goNextScene("controller/nav_controller.fxml", mouseEvent, this.applicationContext);
-                break;
+        if (mouseEvent.getSource() instanceof Button) {
+            Button button = (Button) mouseEvent.getSource();
+            switch (button.getId()) {
+                case "backBtn": {
+                    GlobalUtil.goNextScene("controller/nav_controller.fxml", mouseEvent, this.applicationContext);
+                    break;
+                }
+                case "searchBtn": {
+                    loadData();
+                    break;
+                }
+                default: {
+                    break;
+                }
             }
-            case "searchBtn": {
-                loadData();
-                break;
-            }
-            default: {
-                break;
-            }
+        } else if (mouseEvent.getSource() instanceof RepoListCell) {
+            var cell = (RepoListCell) mouseEvent.getSource();
+            var controller = this.applicationContext.getBean(RepoDetailController.class);
+            controller.id = cell.id;
+            controller.title = cell.titleLabel.getText();
+            Scene scene = GlobalUtil.goNextScene("controller/repo_detail_controller.fxml", mouseEvent, this.applicationContext);
+            controller.previousScene = scene;
         }
     }
-
 
     private void loadData() {
         container.getChildren().clear();
@@ -88,6 +97,7 @@ public class AllStarRepoController extends BaseController {
                         tbGist.getDescription(),
                         tbGist.getWatchers().toString(),
                         tbGist.getForks().toString());
+                repoListCell.setOnMouseClicked(this);
                 repoListCells.add(repoListCell);
             }
             container.getChildren().addAll(repoListCells);
@@ -108,6 +118,7 @@ public class AllStarRepoController extends BaseController {
                                 tbGist.getDescription(),
                                 tbGist.getWatchers().toString(),
                                 tbGist.getForks().toString());
+                        repoListCell.setOnMouseClicked(this);
                         repoListCells.add(repoListCell);
                     }
                     container.getChildren().addAll(repoListCells);

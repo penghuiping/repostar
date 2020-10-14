@@ -1,8 +1,10 @@
 spring:
   main:
     web-application-type: none
+  datasource:
+    url: jdbc:sqlite:./data/repostars.db
 logging:
   level:
     root: INFO
   file:
-    name: logs/repostars.log
+    name: ./logs/repostars.log
