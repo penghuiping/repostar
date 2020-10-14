@@ -41,10 +41,11 @@ public class ReposManagerImpl implements ReposManager {
     }
 
     @Override
-    public RepoReadme getRepoReadme(String repoFullName) {
+    public RepoReadme getRepoReadme(String token, String repoFullName) {
         try {
-            var uri = new URI(Constants.GET_REPO_README);
+            var uri = new URI(String.format(Constants.GET_REPO_README, repoFullName));
             var request = HttpRequest.newBuilder().uri(uri).GET()
+//                    .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
             return JsonUtil.fromJson(response.body(), RepoReadme.class);

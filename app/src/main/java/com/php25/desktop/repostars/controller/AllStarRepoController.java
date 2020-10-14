@@ -84,7 +84,7 @@ public class AllStarRepoController extends BaseController {
         container.getChildren().clear();
         String searchText = searchTextField.getText();
         AtomicReference<Integer> pageNum = new AtomicReference<>(1);
-        Integer pageSize = 50;
+        Integer pageSize = 10;
         TbUser tbUser = localStorage.getLoginUser();
         //初始加载
         this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText,
@@ -106,7 +106,6 @@ public class AllStarRepoController extends BaseController {
         //下滑加载
         scrollPane.setOnScroll(scrollEvent -> {
             if (scrollEvent.getDeltaY() < 0 && pageNum.get() < dataGridPageDto.getRecordsTotal() / pageSize) {
-                log.info("下划");
                 pageNum.set(pageNum.get() + 1);
                 this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText,
                         PageRequest.of(pageNum.get(), pageSize));

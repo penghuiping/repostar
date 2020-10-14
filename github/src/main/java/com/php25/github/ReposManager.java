@@ -22,8 +22,9 @@ public interface ReposManager {
     /**
      * 获取某个repo的readme
      *
+     * @param token        github个人oauth token
      * @param repoFullName repo全名
      * @return readme内容
      */
-    RepoReadme getRepoReadme(String repoFullName);
+    RepoReadme getRepoReadme(String token, String repoFullName);
 }
