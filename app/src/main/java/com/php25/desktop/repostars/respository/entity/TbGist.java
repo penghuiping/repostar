@@ -32,6 +32,8 @@ public class TbGist implements Persistable<Long> {
 
     private String language;
 
+    private String readme;
+
     private Integer forks;
 
     private Integer watchers;
