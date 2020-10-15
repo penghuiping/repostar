@@ -6,15 +6,11 @@ import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.github.ReposManager;
 import com.php25.github.dto.RepoReadme;
-import com.vladsch.flexmark.html.HtmlRenderer;
-import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.util.ast.Node;
-import com.vladsch.flexmark.util.data.MutableDataSet;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.web.WebView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,7 +30,7 @@ public class RepoDetailController extends BaseController {
     public Long id;
     public String title;
     public Scene previousScene;
-    public WebView container;
+    public TextArea container;
 
     @Autowired
     private LruCache<String, Object> lruCache;
@@ -57,16 +53,11 @@ public class RepoDetailController extends BaseController {
                 return;
             }
             var content = new String(Base64.getMimeDecoder().decode(repoReadme.getContent()));
-            MutableDataSet options = new MutableDataSet();
-            Parser parser = Parser.builder(options).build();
-            HtmlRenderer renderer = HtmlRenderer.builder(options).build();
-            Node document = parser.parse(content);
-            String html = renderer.render(document);
-            lruCache.putValue(title, html);
-            htmlObj = html;
+            lruCache.putValue(title, content);
+            htmlObj = content;
         }
         String html = htmlObj.toString();
-        container.getEngine().loadContent(html);
+        container.setText(html);
     }
 
     @Override

@@ -82,10 +82,10 @@ public class GroupListController extends BaseController {
                 }
             }
         } else if (mouseEvent.getSource() instanceof RepoListCellAdd) {
-            Scene previous = GlobalUtil.goNextScene("controller/group_list_add_controller.fxml", mouseEvent, this.applicationContext);
             GroupListAddController controller = this.applicationContext.getBean(GroupListAddController.class);
-            controller.previousScene = previous;
             controller.groupId = this.groupId;
+            Scene previous = GlobalUtil.goNextScene("controller/group_list_add_controller.fxml", mouseEvent, this.applicationContext);
+            controller.previousScene = previous;
         } else if (mouseEvent.getSource() instanceof RepoListCell) {
             var cell = (RepoListCell) mouseEvent.getSource();
             if (cell.isEdit) {
@@ -100,7 +100,12 @@ public class GroupListController extends BaseController {
                     this.loadEditStatus();
                 }
             } else {
-
+                //非编辑状态点击进入详情界面
+                var controller = this.applicationContext.getBean(RepoDetailController.class);
+                controller.id = cell.id;
+                controller.title = cell.titleLabel.getText();
+                Scene scene = GlobalUtil.goNextScene("controller/repo_detail_controller.fxml", mouseEvent, this.applicationContext);
+                controller.previousScene = scene;
             }
         }
 

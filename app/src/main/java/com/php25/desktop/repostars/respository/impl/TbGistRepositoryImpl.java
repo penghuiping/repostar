@@ -3,6 +3,7 @@ package com.php25.desktop.repostars.respository.impl;
 import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.common.core.util.PageUtil;
 import com.php25.common.db.Db;
+import com.php25.common.db.cnd.CndJdbc;
 import com.php25.common.db.cnd.Query;
 import com.php25.common.db.repository.BaseDbRepositoryImpl;
 import com.php25.desktop.repostars.respository.TbGistRepository;
@@ -55,16 +56,23 @@ public class TbGistRepositoryImpl extends BaseDbRepositoryImpl<TbGist, Long> imp
     @Override
     public DataGridPageDto<TbGist> findAllByLoginUnGroup(String login, String searchKey, Integer pageNum, Integer pageSize) {
         var pageIndex = PageUtil.transToStartEnd(pageNum, pageSize);
-
-        Query query = db.cndJdbc(TbGist.class, "a")
-                .whereEq("a.login", login)
-                .andEq("a.isJoinGroup", false).andLike("a.description", "%" + searchKey + "%");
-
-        List<TbGist> tbGists = query
+        CndJdbc cndJdbc = db.cndJdbc(TbGist.class, "a");
+        var supplier = new Supplier<Query>() {
+            @Override
+            public Query get() {
+                Query query = cndJdbc
+                        .whereEq("a.login", login)
+                        .andEq("a.isJoinGroup", false)
+                        .and(cndJdbc.clone()
+                                .andLike("a.description", "%" + searchKey + "%")
+                                .orLike("a.name", "%" + searchKey + "%"));
+                return query;
+            }
+        };
+        List<TbGist> tbGists = supplier.get()
                 .limit(pageIndex[0], pageSize)
                 .select();
-        Long count = query.count();
-
+        Long count = supplier.get().count();
         DataGridPageDto<TbGist> result = new DataGridPageDto<>();
         result.setData(tbGists);
         result.setRecordsTotal(count);

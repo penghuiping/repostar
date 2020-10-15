@@ -48,9 +48,9 @@ public class AllStarRepoController extends BaseController {
     @Override
     public void start() throws Exception {
         scrollPane.getStyleClass().add("edge-to-edge");
-        this.loadData();
         backBtn.setOnMouseClicked(this);
         searchBtn.setOnMouseClicked(this);
+        this.loadData();
     }
 
     @Override
