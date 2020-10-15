@@ -120,4 +120,19 @@ public interface UserService {
      * @param groupId
      */
     void deleteOneGistFromGroup(Long gistId, Long groupId);
+
+    /**
+     * 根据gist全面查找gist
+     *
+     * @param fullName 全名
+     * @return gist
+     */
+    TbGist findOneByFullName(String fullName);
+
+    /**
+     * 保存或者更新gist
+     *
+     * @param tbGist
+     */
+    void saveTbGist(TbGist tbGist);
 }

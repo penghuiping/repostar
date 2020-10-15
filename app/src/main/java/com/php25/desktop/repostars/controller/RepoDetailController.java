@@ -2,6 +2,8 @@ package com.php25.desktop.repostars.controller;
 
 import com.php25.common.core.mess.LruCache;
 import com.php25.common.core.util.StringUtil;
+import com.php25.desktop.repostars.respository.entity.TbGist;
+import com.php25.desktop.repostars.service.UserService;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.github.ReposManager;
@@ -41,20 +43,36 @@ public class RepoDetailController extends BaseController {
     @Autowired
     private ReposManager reposManager;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public void start() throws Exception {
         backBtn.setOnMouseClicked(this);
         titleLabel.setText(title);
+        //先看lru缓存中是否存在
         Object htmlObj = lruCache.getValue(title);
         if (null == htmlObj || StringUtil.isBlank(htmlObj.toString())) {
-            var user = localStorage.getLoginUser();
-            RepoReadme repoReadme = reposManager.getRepoReadme(user.getToken(), title);
-            if (null == repoReadme) {
-                return;
+            //在看本地数据库中是否存在
+            TbGist tbGist = userService.findOneByFullName(title);
+            if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
+                var content = tbGist.getReadme();
+                lruCache.putValue(title, content);
+                htmlObj = content;
             }
-            var content = new String(Base64.getMimeDecoder().decode(repoReadme.getContent()));
-            lruCache.putValue(title, content);
-            htmlObj = content;
+
+            if (null == htmlObj) {
+                var user = localStorage.getLoginUser();
+                RepoReadme repoReadme = reposManager.getRepoReadme(user.getToken(), title);
+                if (null == repoReadme) {
+                    return;
+                }
+                var content = new String(Base64.getMimeDecoder().decode(repoReadme.getContent()));
+                tbGist.setReadme(content);
+                tbGist.setIsNew(false);
+                userService.saveTbGist(tbGist);
+                htmlObj = content;
+            }
         }
         String html = htmlObj.toString();
         container.setText(html);

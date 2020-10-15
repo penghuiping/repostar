@@ -298,4 +298,14 @@ public class UserServiceImpl implements UserService {
         tbGist.setIsNew(false);
         tbGistRepository.save(tbGist);
     }
+
+    @Override
+    public TbGist findOneByFullName(String fullName) {
+        return tbGistRepository.findByFullName(fullName);
+    }
+
+    @Override
+    public void saveTbGist(TbGist tbGist) {
+        tbGistRepository.save(tbGist);
+    }
 }

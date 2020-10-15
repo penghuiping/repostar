@@ -78,4 +78,9 @@ public class TbGistRepositoryImpl extends BaseDbRepositoryImpl<TbGist, Long> imp
         result.setRecordsTotal(count);
         return result;
     }
+
+    @Override
+    public TbGist findByFullName(String fullName) {
+        return db.cndJdbc(TbGist.class, "a").whereEq("a.fullName", fullName).single();
+    }
 }

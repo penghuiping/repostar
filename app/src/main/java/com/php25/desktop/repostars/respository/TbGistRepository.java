@@ -15,7 +15,7 @@ public interface TbGistRepository extends BaseDbRepository<TbGist, Long> {
      *
      * @param login    登入名
      * @param groupId  组id
-     * @param start    第几页
+     * @param pageNum  第几页
      * @param pageSize 每页多少条
      * @return gist列表
      */
@@ -38,4 +38,12 @@ public interface TbGistRepository extends BaseDbRepository<TbGist, Long> {
      * @return gist列表
      */
     DataGridPageDto<TbGist> findAllByLoginUnGroup(String login, String searchKey, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据gist全面查询gist
+     *
+     * @param fullName 全面
+     * @return gist
+     */
+    TbGist findByFullName(String fullName);
 }
