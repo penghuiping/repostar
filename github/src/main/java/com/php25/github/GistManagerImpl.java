@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -31,6 +32,7 @@ public class GistManagerImpl implements GistManager {
         try {
             var uri = new URI(String.format(Constants.LIST_STARRED_GISTS + "?page=%d&&per_page=%d", username, pageNum, pageSize));
             var request = HttpRequest.newBuilder(uri).GET()
+                    .timeout(Duration.ofSeconds(Constants.TIMEOUT))
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));

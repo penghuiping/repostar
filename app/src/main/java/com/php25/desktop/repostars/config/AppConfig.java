@@ -24,7 +24,10 @@ public class AppConfig {
 
     @Bean
     public HttpClient httpClient() {
-        return HttpClient.newBuilder().connectTimeout(Duration.of(10, ChronoUnit.SECONDS)).build();
+        return HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(Duration.of(10, ChronoUnit.SECONDS))
+                .build();
     }
 
     @Bean

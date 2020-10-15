@@ -11,6 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 /**
  * @author penghuiping
@@ -27,6 +28,7 @@ public class UserManagerImpl implements UserManager {
         try {
             var uri = new URI(Constants.GET_USER_INFO);
             var request = HttpRequest.newBuilder().uri(uri).GET()
+                    .timeout(Duration.ofSeconds(Constants.TIMEOUT))
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
