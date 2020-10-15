@@ -30,8 +30,10 @@ public class ReposManagerImpl implements ReposManager {
     public List<Repos> getReposList(String token) {
         try {
             var uri = new URI(Constants.LIST_USER_REPOS);
-            var request = HttpRequest.newBuilder().uri(uri).GET()
+            var request = HttpRequest.newBuilder()
                     .timeout(Duration.ofSeconds(Constants.TIMEOUT))
+                    .uri(uri)
+                    .GET()
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
@@ -46,8 +48,10 @@ public class ReposManagerImpl implements ReposManager {
     public RepoReadme getRepoReadme(String token, String repoFullName) {
         try {
             var uri = new URI(String.format(Constants.GET_REPO_README, repoFullName));
-            var request = HttpRequest.newBuilder().uri(uri).GET()
-                    .timeout(Duration.ofSeconds(10))
+            var request = HttpRequest.newBuilder()
+                    .timeout(Duration.ofSeconds(Constants.TIMEOUT))
+                    .uri(uri)
+                    .GET()
 //                    .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));

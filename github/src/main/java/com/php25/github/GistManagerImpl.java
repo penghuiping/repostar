@@ -31,8 +31,9 @@ public class GistManagerImpl implements GistManager {
     public List<Gist> getAllStarredGist(String username, String token, Integer pageNum, Integer pageSize) {
         try {
             var uri = new URI(String.format(Constants.LIST_STARRED_GISTS + "?page=%d&&per_page=%d", username, pageNum, pageSize));
-            var request = HttpRequest.newBuilder(uri).GET()
+            var request = HttpRequest.newBuilder(uri)
                     .timeout(Duration.ofSeconds(Constants.TIMEOUT))
+                    .GET()
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));

@@ -27,8 +27,10 @@ public class UserManagerImpl implements UserManager {
     public User getUserInfo(String token) {
         try {
             var uri = new URI(Constants.GET_USER_INFO);
-            var request = HttpRequest.newBuilder().uri(uri).GET()
+            var request = HttpRequest.newBuilder()
                     .timeout(Duration.ofSeconds(Constants.TIMEOUT))
+                    .uri(uri)
+                    .GET()
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
