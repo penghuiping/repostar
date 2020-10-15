@@ -35,6 +35,7 @@ public class MyRepoController extends BaseController {
     @Override
     public void start() throws Exception {
         scrollPane.getStyleClass().add("edge-to-edge");
+        backBtn.setOnMouseClicked(this);
         TbUser tbUser = localStorage.getLoginUser();
         List<TbRepos> tbReposList = userService.getMyRepos(tbUser.getLogin(), tbUser.getToken());
         if (null != tbReposList && !tbReposList.isEmpty()) {
@@ -49,7 +50,6 @@ public class MyRepoController extends BaseController {
                 container.getChildren().add(repoListCell);
             }
         }
-        backBtn.setOnMouseClicked(this);
     }
 
     @Override
