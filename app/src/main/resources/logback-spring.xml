@@ -20,12 +20,6 @@
 
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--获取比info级别高(包括info级别)但除error级别的日志-->
-        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
-        <!--<level>ERROR</level>-->
-        <!--<onMatch>DENY</onMatch>-->
-        <!--<onMismatch>ACCEPT</onMismatch>-->
-        <!--</filter>-->
         <file>${LOG_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}-%i.zip</fileNamePattern>
