@@ -15,6 +15,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author penghuiping
@@ -36,8 +37,9 @@ public class GistManagerImpl implements GistManager {
                     .GET()
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
-            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            return JsonUtil.fromJson(response.body(), new TypeReference<List<Gist>>() {
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            var result = response.get(Constants.TIMEOUT, TimeUnit.SECONDS);
+            return JsonUtil.fromJson(result.body(), new TypeReference<List<Gist>>() {
             });
         } catch (Exception e) {
             throw Exceptions.throwIllegalStateException("获取starred项目列表失败", e);

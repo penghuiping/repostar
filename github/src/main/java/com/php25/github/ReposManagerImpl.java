@@ -15,6 +15,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author penghuiping
@@ -36,8 +37,9 @@ public class ReposManagerImpl implements ReposManager {
                     .GET()
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
-            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            return JsonUtil.fromJson(response.body(), new TypeReference<List<Repos>>() {
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            var result = response.get(Constants.TIMEOUT, TimeUnit.SECONDS);
+            return JsonUtil.fromJson(result.body(), new TypeReference<List<Repos>>() {
             });
         } catch (Exception e) {
             throw Exceptions.throwIllegalStateException("获取个人仓库项目列表失败", e);
@@ -52,10 +54,10 @@ public class ReposManagerImpl implements ReposManager {
                     .timeout(Duration.ofSeconds(Constants.TIMEOUT))
                     .uri(uri)
                     .GET()
-//                    .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
-            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            return JsonUtil.fromJson(response.body(), RepoReadme.class);
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            var result = response.get(Constants.TIMEOUT, TimeUnit.SECONDS);
+            return JsonUtil.fromJson(result.body(), RepoReadme.class);
         } catch (Exception e) {
             throw Exceptions.throwIllegalStateException("获取仓库项目readme失败", e);
         }

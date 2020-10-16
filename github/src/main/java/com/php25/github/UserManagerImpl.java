@@ -12,6 +12,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author penghuiping
@@ -33,8 +34,9 @@ public class UserManagerImpl implements UserManager {
                     .GET()
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
-            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            return JsonUtil.fromJson(response.body(), User.class);
+            var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            var result = response.get(Constants.TIMEOUT, TimeUnit.SECONDS);
+            return JsonUtil.fromJson(result.body(), User.class);
         } catch (Exception e) {
             throw Exceptions.throwIllegalStateException("获取个人信息失败", e);
         }
