@@ -1,9 +1,9 @@
 package com.php25.desktop.repostars.controller;
 
 import com.php25.common.core.dto.DataGridPageDto;
-import com.php25.desktop.repostars.respository.entity.TbGist;
-import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.dto.GistDto;
+import com.php25.desktop.repostars.service.dto.UserDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.RepoListCell;
@@ -42,7 +42,7 @@ public class AllStarRepoController extends BaseController {
     @Autowired
     private LocalStorage localStorage;
 
-    private DataGridPageDto<TbGist> dataGridPageDto;
+    private DataGridPageDto<GistDto> dataGridPageDto;
 
 
     @Override
@@ -85,14 +85,14 @@ public class AllStarRepoController extends BaseController {
         String searchText = searchTextField.getText();
         AtomicReference<Integer> pageNum = new AtomicReference<>(1);
         Integer pageSize = 10;
-        TbUser tbUser = localStorage.getLoginUser();
+        UserDto tbUser = localStorage.getLoginUser();
         //初始加载
         this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText,
                 PageRequest.of(pageNum.get(), pageSize));
-        List<TbGist> gistList = dataGridPageDto.getData();
+        List<GistDto> gistList = dataGridPageDto.getData();
         if (null != gistList && !gistList.isEmpty()) {
             List<RepoListCell> repoListCells = new ArrayList<>();
-            for (TbGist tbGist : gistList) {
+            for (GistDto tbGist : gistList) {
                 RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(),
                         tbGist.getDescription(),
                         tbGist.getWatchers().toString(),
@@ -109,10 +109,10 @@ public class AllStarRepoController extends BaseController {
                 pageNum.set(pageNum.get() + 1);
                 this.dataGridPageDto = userService.searchPage(tbUser.getLogin(), tbUser.getToken(), searchText,
                         PageRequest.of(pageNum.get(), pageSize));
-                List<TbGist> gistList1 = dataGridPageDto.getData();
+                List<GistDto> gistList1 = dataGridPageDto.getData();
                 if (null != gistList1 && !gistList1.isEmpty()) {
                     List<RepoListCell> repoListCells = new ArrayList<>();
-                    for (TbGist tbGist : gistList1) {
+                    for (GistDto tbGist : gistList1) {
                         RepoListCell repoListCell = new RepoListCell(tbGist.getId(), tbGist.getFullName(),
                                 tbGist.getDescription(),
                                 tbGist.getWatchers().toString(),

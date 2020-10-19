@@ -1,7 +1,7 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.dto.UserDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.AbstractRepoListCell;
@@ -115,7 +115,7 @@ public class GroupListController extends BaseController {
     public void loadEditStatus() {
         container.getChildren().clear();
         this.listCells = new ArrayList<>();
-        TbUser tbUser = localStorage.getLoginUser();
+        UserDto tbUser = localStorage.getLoginUser();
         var tbGistDataGridPageDto = userService.searchPageByGroupId(tbUser.getLogin(),
                 tbUser.getToken(), this.groupId, PageRequest.of(1, 20));
         var repoListCells = tbGistDataGridPageDto.getData().stream().map(tbGist -> {

@@ -1,5 +1,6 @@
 package com.php25.desktop.repostars.service;
 
+import com.google.common.collect.Lists;
 import com.php25.common.core.dto.DataGridPageDto;
 import com.php25.common.core.exception.Exceptions;
 import com.php25.common.core.mess.IdGenerator;
@@ -20,6 +21,10 @@ import com.php25.desktop.repostars.respository.entity.TbGistRef;
 import com.php25.desktop.repostars.respository.entity.TbGroup;
 import com.php25.desktop.repostars.respository.entity.TbRepos;
 import com.php25.desktop.repostars.respository.entity.TbUser;
+import com.php25.desktop.repostars.service.dto.GistDto;
+import com.php25.desktop.repostars.service.dto.GroupDto;
+import com.php25.desktop.repostars.service.dto.ReposDto;
+import com.php25.desktop.repostars.service.dto.UserDto;
 import com.php25.github.GistManager;
 import com.php25.github.ReposManager;
 import com.php25.github.UserManager;
@@ -82,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public TbUser login(String username, String token) {
+    public UserDto login(String username, String token) {
         AssertUtil.hasText(username, "用户名不能为空");
         AssertUtil.hasText(token, "令牌不能为空");
 
@@ -100,7 +105,7 @@ public class UserServiceImpl implements UserService {
                 tbUser.setLastLoginTime(Instant.now().toEpochMilli());
                 tbUser.setIsNew(false);
                 tbUserRepository.save(tbUser);
-                return tbUser;
+                return new UserDto.UserDtoConverter().reverse().convert(tbUser);
             }
         }
 
@@ -119,7 +124,7 @@ public class UserServiceImpl implements UserService {
                 tbUser.setEnable(1);
                 tbUser.setIsNew(true);
                 tbUserRepository.save(tbUser);
-                return tbUser;
+                return new UserDto.UserDtoConverter().reverse().convert(tbUser);
             } else {
                 //更新
                 BeanUtils.copyProperties(user, tbUser);
@@ -128,7 +133,7 @@ public class UserServiceImpl implements UserService {
                 tbUser.setLastLoginTime(Instant.now().toEpochMilli());
                 tbUser.setIsNew(false);
                 tbUserRepository.save(tbUser);
-                return tbUser;
+                return new UserDto.UserDtoConverter().reverse().convert(tbUser);
             }
         } else {
             throw Exceptions.throwBusinessException(AppError.LOGIN_ERROR);
@@ -190,8 +195,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<TbRepos> getMyRepos(String username, String token) {
+    public List<ReposDto> getMyRepos(String username, String token) {
         List<TbRepos> result = tbReposRepository.findAllByLogin(username);
+        var result1 = new ArrayList<ReposDto>();
         if (null == result || result.isEmpty()) {
             List<Repos> repos = reposManager.getReposList(token);
             if (null != repos && !repos.isEmpty()) {
@@ -208,36 +214,63 @@ public class UserServiceImpl implements UserService {
                 tbReposRepository.saveAll(result);
             }
         }
+        result1 = Lists.newArrayList(new ReposDto.ReposDtoConverter().reverse().convertAll(result));
+        return result1;
+    }
+
+    @Override
+    public DataGridPageDto<GistDto> getMyGistUngroup(String username, String searchKey, PageRequest request) {
+        var result1 = tbGistRepository.findAllByLoginUnGroup(username, searchKey, request.getPageNumber(), request.getPageSize());
+        var content1 = result1.getData();
+        var content = new ArrayList<GistDto>();
+        var result = new DataGridPageDto<GistDto>();
+        result.setData(Lists.newArrayList(new GistDto.GistConverter().reverse().convertAll(content1)));
+        result.setRecordsTotal(result1.getRecordsTotal());
         return result;
     }
 
     @Override
-    public DataGridPageDto<TbGist> getMyGistUngroup(String username, String searchKey, PageRequest request) {
-        return tbGistRepository.findAllByLoginUnGroup(username, searchKey, request.getPageNumber(), request.getPageSize());
-    }
-
-    @Override
-    public DataGridPageDto<TbGist> searchPage(String username, String token, String searchKey, PageRequest request) {
+    public DataGridPageDto<GistDto> searchPage(String username, String token, String searchKey, PageRequest request) {
         Long count = tbGistRepository.countByLogin(username);
         if (null == count || count <= 0) {
             this.syncStarRepo0(username, token);
         }
         Page<TbGist> page = tbGistRepository.findAll(SearchParamBuilder.builder().append(SearchParam.of("login", Operator.EQ, username)).append(SearchParam.of("description", Operator.LIKE, "%" + searchKey + "%")), request);
-        DataGridPageDto<TbGist> dataGridPageDto = new DataGridPageDto<>();
-        dataGridPageDto.setData(page.getContent());
+
+        var gistDtos = new ArrayList<GistDto>();
+
+        if (!page.getContent().isEmpty()) {
+            var content = page.getContent();
+            gistDtos = Lists.newArrayList(new GistDto.GistConverter().reverse().convertAll(content));
+        }
+        var dataGridPageDto = new DataGridPageDto<GistDto>();
+        dataGridPageDto.setData(gistDtos);
         dataGridPageDto.setRecordsTotal(page.getTotalElements());
         return dataGridPageDto;
     }
 
     @Override
-    public DataGridPageDto<TbGist> searchPageByGroupId(String username, String token, Long groupId, PageRequest request) {
-        return tbGistRepository
+    public DataGridPageDto<GistDto> searchPageByGroupId(String username, String token, Long groupId, PageRequest request) {
+        var result1 = tbGistRepository
                 .findPageByLoginAndGroupId(username, groupId, request.getPageNumber(), request.getPageSize());
+        var result = new DataGridPageDto<GistDto>();
+        var tbGists = result1.getData();
+        var converter = new GistDto.GistConverter();
+        if (null != tbGists && !tbGists.isEmpty()) {
+            result.setData(Lists.newArrayList(converter.reverse().convertAll(tbGists)));
+        }
+        return result;
     }
 
     @Override
-    public List<TbGroup> getGroups(String username) {
-        return tbGroupRepository.findByLogin(username);
+    public List<GroupDto> getGroups(String username) {
+        var group = tbGroupRepository.findByLogin(username);
+        var converter = new GroupDto.GroupDtoConverter();
+        if (null != group && !group.isEmpty()) {
+            return Lists.newArrayList(converter.reverse().convertAll(group));
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -300,12 +333,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TbGist findOneByFullName(String fullName) {
-        return tbGistRepository.findByFullName(fullName);
+    public GistDto findOneByFullName(String fullName) {
+        var gist = tbGistRepository.findByFullName(fullName);
+        return new GistDto.GistConverter().reverse().convert(gist);
     }
 
     @Override
-    public void saveTbGist(TbGist tbGist) {
-        tbGistRepository.save(tbGist);
+    public void saveGist(GistDto gistDto) {
+        var gist = new GistDto.GistConverter().convert(gistDto);
+        gist.setIsNew(true);
+        tbGistRepository.save(gist);
+    }
+
+    @Override
+    public void updateGist(GistDto gistDto) {
+        var gist = new GistDto.GistConverter().convert(gistDto);
+        gist.setIsNew(false);
+        tbGistRepository.save(gist);
     }
 }

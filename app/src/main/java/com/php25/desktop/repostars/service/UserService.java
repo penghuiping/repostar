@@ -1,10 +1,10 @@
 package com.php25.desktop.repostars.service;
 
 import com.php25.common.core.dto.DataGridPageDto;
-import com.php25.desktop.repostars.respository.entity.TbGist;
-import com.php25.desktop.repostars.respository.entity.TbGroup;
-import com.php25.desktop.repostars.respository.entity.TbRepos;
-import com.php25.desktop.repostars.respository.entity.TbUser;
+import com.php25.desktop.repostars.service.dto.GistDto;
+import com.php25.desktop.repostars.service.dto.GroupDto;
+import com.php25.desktop.repostars.service.dto.ReposDto;
+import com.php25.desktop.repostars.service.dto.UserDto;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface UserService {
      * @param username 用户名
      * @param token    令牌
      */
-    TbUser login(String username, String token);
+    UserDto login(String username, String token);
 
     /**
      * 同步用户的stars到本地
@@ -38,7 +38,7 @@ public interface UserService {
      * @param token    令牌
      * @return repos列表
      */
-    List<TbRepos> getMyRepos(String username, String token);
+    List<ReposDto> getMyRepos(String username, String token);
 
     /**
      * 获取用户自己的未分组的gist
@@ -47,7 +47,7 @@ public interface UserService {
      * @param searchKey 搜索关键字
      * @return gist列表
      */
-    DataGridPageDto<TbGist> getMyGistUngroup(String username, String searchKey, PageRequest request);
+    DataGridPageDto<GistDto> getMyGistUngroup(String username, String searchKey, PageRequest request);
 
     /**
      * 分页搜索
@@ -58,7 +58,7 @@ public interface UserService {
      * @param request   分页
      * @return 分页数据
      */
-    DataGridPageDto<TbGist> searchPage(String username, String token, String searchKey, PageRequest request);
+    DataGridPageDto<GistDto> searchPage(String username, String token, String searchKey, PageRequest request);
 
 
     /**
@@ -70,7 +70,7 @@ public interface UserService {
      * @param request  分页请求
      * @return 分页数据
      */
-    DataGridPageDto<TbGist> searchPageByGroupId(String username, String token, Long groupId, PageRequest request);
+    DataGridPageDto<GistDto> searchPageByGroupId(String username, String token, Long groupId, PageRequest request);
 
     /**
      * 获取用户创建的组
@@ -78,7 +78,7 @@ public interface UserService {
      * @param username 用户名
      * @return 组列表
      */
-    List<TbGroup> getGroups(String username);
+    List<GroupDto> getGroups(String username);
 
     /**
      * 创建组
@@ -127,13 +127,20 @@ public interface UserService {
      * @param fullName 全名
      * @return gist
      */
-    TbGist findOneByFullName(String fullName);
+    GistDto findOneByFullName(String fullName);
 
     /**
-     * 保存或者更新gist
+     * 保存gist
      *
-     * @param tbGist
+     * @param gistDto
      */
-    void saveTbGist(TbGist tbGist);
+    void saveGist(GistDto gistDto);
+
+    /**
+     * 更新gist
+     *
+     * @param gistDto
+     */
+    void updateGist(GistDto gistDto);
 
 }

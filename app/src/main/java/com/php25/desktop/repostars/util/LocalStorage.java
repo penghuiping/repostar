@@ -1,6 +1,6 @@
 package com.php25.desktop.repostars.util;
 
-import com.php25.desktop.repostars.respository.entity.TbUser;
+import com.php25.desktop.repostars.service.dto.UserDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class LocalStorage {
     private final Map<String, String> map = new HashMap<>();
 
-    private TbUser tbUser = null;
+    private UserDto tbUser = null;
 
     public synchronized void put(String key, String value) {
         map.put(key, value);
@@ -22,12 +22,12 @@ public class LocalStorage {
         return map.get(key);
     }
 
-    public synchronized void save(TbUser tbUser) {
+    public synchronized void save(UserDto tbUser) {
         this.tbUser = tbUser;
     }
 
 
-    public synchronized TbUser getLoginUser() {
+    public synchronized UserDto getLoginUser() {
         return this.tbUser;
     }
 

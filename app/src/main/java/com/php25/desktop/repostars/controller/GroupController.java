@@ -1,7 +1,7 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.desktop.repostars.respository.entity.TbGroup;
 import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.dto.GroupDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.GroupItem;
@@ -94,20 +94,33 @@ public class GroupController extends BaseController {
                 }
             }
         } else if (mouseEvent.getSource() instanceof GroupItem) {
-            //非编辑状态点击
             var item = (GroupItem) mouseEvent.getSource();
             if (!item.isEdit()) {
+                //非编辑状态点击
                 log.info("点击:{}", item.getTitle());
                 var controller = this.applicationContext.getBean(GroupListController.class);
                 controller.groupId = item.getGroupId();
                 controller.groupName = item.getTitle();
                 GlobalUtil.goNextScene("controller/group_list_controller.fxml", mouseEvent, this.applicationContext);
+            } else {
+                //编辑状态
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("修改");
+                dialog.setHeaderText("请输入需要修改的组名");
+                dialog.setContentText("组名:");
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(groupName -> {
+                    var user = localStorage.getLoginUser();
+                    userService.changeGroupName(user.getLogin(), item.getGroupId(), groupName);
+                    this.loadGroupItem();
+                    setEditStatus(true);
+                });
             }
         } else if (mouseEvent.getSource() instanceof GroupItemAdd) {
             //编辑状态新增
             var item = (GroupItemAdd) mouseEvent.getSource();
             TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("注意");
+            dialog.setTitle("新增");
             dialog.setHeaderText("请输入组名");
             dialog.setContentText("组名:");
             Optional<String> result = dialog.showAndWait();
@@ -124,7 +137,7 @@ public class GroupController extends BaseController {
         this.groupItems = new ArrayList<>();
         var groupItemAdd = new GroupItemAdd();
         var user = localStorage.getLoginUser();
-        List<TbGroup> groups = userService.getGroups(user.getLogin());
+        List<GroupDto> groups = userService.getGroups(user.getLogin());
         if (null != groups && !groups.isEmpty()) {
             this.groupItems = groups.stream().map(tbGroup -> new GroupItem(tbGroup.getName(), tbGroup.getId())).collect(Collectors.toList());
         }

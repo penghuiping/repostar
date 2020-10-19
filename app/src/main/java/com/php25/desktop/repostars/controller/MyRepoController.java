@@ -1,8 +1,8 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.desktop.repostars.respository.entity.TbRepos;
-import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.dto.ReposDto;
+import com.php25.desktop.repostars.service.dto.UserDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.RepoListCell;
@@ -36,10 +36,10 @@ public class MyRepoController extends BaseController {
     public void start() throws Exception {
         scrollPane.getStyleClass().add("edge-to-edge");
         backBtn.setOnMouseClicked(this);
-        TbUser tbUser = localStorage.getLoginUser();
-        List<TbRepos> tbReposList = userService.getMyRepos(tbUser.getLogin(), tbUser.getToken());
+        UserDto tbUser = localStorage.getLoginUser();
+        List<ReposDto> tbReposList = userService.getMyRepos(tbUser.getLogin(), tbUser.getToken());
         if (null != tbReposList && !tbReposList.isEmpty()) {
-            for (TbRepos tbRepos : tbReposList) {
+            for (ReposDto tbRepos : tbReposList) {
                 RepoListCell repoListCell = new RepoListCell(
                         tbRepos.getId(),
                         tbRepos.getFullName(),

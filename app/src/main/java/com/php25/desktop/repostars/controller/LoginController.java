@@ -1,7 +1,7 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.desktop.repostars.respository.entity.TbUser;
 import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.dto.UserDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import javafx.geometry.Pos;
@@ -54,7 +54,7 @@ public class LoginController extends BaseController {
                 case "loginBtn": {
                     String token = tokenTextField.getText();
                     String username = usernameTextField.getText();
-                    TbUser tbUser = userService.login(username, token);
+                    UserDto tbUser = userService.login(username, token);
                     localStorage.save(tbUser);
                     GlobalUtil.goNextScene("controller/nav_controller.fxml", mouseEvent, this.applicationContext);
                 }

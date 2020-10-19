@@ -2,8 +2,8 @@ package com.php25.desktop.repostars.controller;
 
 import com.php25.common.core.mess.LruCache;
 import com.php25.common.core.util.StringUtil;
-import com.php25.desktop.repostars.respository.entity.TbGist;
 import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.dto.GistDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.github.ReposManager;
@@ -54,7 +54,7 @@ public class RepoDetailController extends BaseController {
         Object htmlObj = lruCache.getValue(title);
         if (null == htmlObj || StringUtil.isBlank(htmlObj.toString())) {
             //在看本地数据库中是否存在
-            TbGist tbGist = userService.findOneByFullName(title);
+            GistDto tbGist = userService.findOneByFullName(title);
             if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
                 var content = tbGist.getReadme();
                 lruCache.putValue(title, content);
@@ -69,8 +69,7 @@ public class RepoDetailController extends BaseController {
                 }
                 var content = new String(Base64.getMimeDecoder().decode(repoReadme.getContent()));
                 tbGist.setReadme(content);
-                tbGist.setIsNew(false);
-                userService.saveTbGist(tbGist);
+                userService.updateGist(tbGist);
                 htmlObj = content;
             }
         }
