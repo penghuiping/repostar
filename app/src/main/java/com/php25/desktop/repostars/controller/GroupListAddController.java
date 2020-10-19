@@ -8,7 +8,9 @@ import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
 import com.php25.desktop.repostars.view.RepoListCell;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -49,11 +52,13 @@ public class GroupListAddController extends BaseController {
 
     public Long groupId;
 
+    public String groupTitle;
+
 
     @Override
     public void start() throws Exception {
         scrollPane.getStyleClass().add("edge-to-edge");
-        titleLabel.setText("新增分组项");
+        titleLabel.setText(groupTitle);
         backBtn.setOnMouseClicked(this);
         searchBtn.setOnMouseClicked(this);
         loadItem("");
@@ -66,6 +71,8 @@ public class GroupListAddController extends BaseController {
             switch (button.getId()) {
                 case "backBtn": {
                     GlobalUtil.goNextScene(mouseEvent, this.previousScene);
+                    GroupListController controller = this.applicationContext.getBean(GroupListController.class);
+                    controller.loadEditStatus();
                     break;
                 }
                 case "searchBtn": {
@@ -96,10 +103,14 @@ public class GroupListAddController extends BaseController {
                 .collect(Collectors.toList());
         list.forEach(repoListCell -> {
             repoListCell.setOnMouseClicked(mouseEvent -> {
-                userService.addOneGistIntoGroup(repoListCell.id, this.groupId);
-                GlobalUtil.goNextScene(mouseEvent, this.previousScene);
-                GroupListController controller = this.applicationContext.getBean(GroupListController.class);
-                controller.loadEditStatus();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("注意");
+                alert.setHeaderText(String.format("确定把此项加入\"%s\"分组么", this.groupTitle));
+                Optional<ButtonType> buttonType = alert.showAndWait();
+                if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
+                    userService.addOneGistIntoGroup(repoListCell.id, this.groupId);
+                    this.container.getChildren().remove(repoListCell);
+                }
             });
         });
         this.container.getChildren().addAll(list);
@@ -121,10 +132,14 @@ public class GroupListAddController extends BaseController {
                                 tbGist.getForks().toString()
                         );
                         repoListCell.setOnMouseClicked(mouseEvent -> {
-                            userService.addOneGistIntoGroup(repoListCell.id, this.groupId);
-                            GlobalUtil.goNextScene(mouseEvent, this.previousScene);
-                            GroupListController controller = this.applicationContext.getBean(GroupListController.class);
-                            controller.loadEditStatus();
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("注意");
+                            alert.setHeaderText(String.format("确定把此项加入\"%s\"分组么", this.groupTitle));
+                            Optional<ButtonType> buttonType = alert.showAndWait();
+                            if (buttonType.isPresent() && buttonType.get() == ButtonType.OK) {
+                                userService.addOneGistIntoGroup(repoListCell.id, this.groupId);
+                                this.container.getChildren().remove(repoListCell);
+                            }
                         });
                         repoListCells.add(repoListCell);
                     }

@@ -84,6 +84,7 @@ public class GroupListController extends BaseController {
         } else if (mouseEvent.getSource() instanceof RepoListCellAdd) {
             GroupListAddController controller = this.applicationContext.getBean(GroupListAddController.class);
             controller.groupId = this.groupId;
+            controller.groupTitle = this.groupName;
             Scene previous = GlobalUtil.goNextScene("controller/group_list_add_controller.fxml", mouseEvent, this.applicationContext);
             controller.previousScene = previous;
         } else if (mouseEvent.getSource() instanceof RepoListCell) {

@@ -38,7 +38,7 @@ public class GistManagerImpl implements GistManager {
                     .header("Authorization", String.format("token %s", token))
                     .header("Accept", "application/vnd.github.v3+json").build();
             var response = httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-            var result = response.get(Constants.TIMEOUT, TimeUnit.SECONDS);
+            var result = response.get(3 * Constants.TIMEOUT, TimeUnit.SECONDS);
             return JsonUtil.fromJson(result.body(), new TypeReference<List<Gist>>() {
             });
         } catch (Exception e) {
