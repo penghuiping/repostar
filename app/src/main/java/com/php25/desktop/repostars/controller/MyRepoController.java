@@ -1,6 +1,6 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.AppService;
 import com.php25.desktop.repostars.service.dto.ReposDto;
 import com.php25.desktop.repostars.service.dto.UserDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
@@ -27,7 +27,7 @@ public class MyRepoController extends BaseController {
     public Button backBtn;
 
     @Autowired
-    private UserService userService;
+    private AppService userService;
 
     @Autowired
     private LocalStorage localStorage;

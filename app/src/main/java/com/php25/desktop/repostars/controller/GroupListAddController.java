@@ -1,7 +1,7 @@
 package com.php25.desktop.repostars.controller;
 
 import com.php25.common.core.dto.DataGridPageDto;
-import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.AppService;
 import com.php25.desktop.repostars.service.dto.GistDto;
 import com.php25.desktop.repostars.service.dto.UserDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
@@ -45,7 +45,7 @@ public class GroupListAddController extends BaseController {
     public Scene previousScene;
 
     @Autowired
-    private UserService userService;
+    private AppService userService;
 
     @Autowired
     private LocalStorage localStorage;

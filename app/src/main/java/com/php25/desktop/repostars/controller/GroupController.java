@@ -1,6 +1,6 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.AppService;
 import com.php25.desktop.repostars.service.dto.GroupDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
@@ -42,7 +42,7 @@ public class GroupController extends BaseController {
     private Boolean isEdit = false;
 
     @Autowired
-    private UserService userService;
+    private AppService userService;
 
     @Autowired
     private LocalStorage localStorage;

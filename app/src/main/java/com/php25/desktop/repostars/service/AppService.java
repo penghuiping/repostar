@@ -13,7 +13,7 @@ import java.util.List;
  * @author penghuiping
  * @date 2020/9/29 13:40
  */
-public interface UserService {
+public interface AppService {
 
     /**
      * 根据用户名与令牌进行登入

@@ -2,7 +2,7 @@ package com.php25.desktop.repostars.controller;
 
 import com.php25.common.core.mess.LruCache;
 import com.php25.common.core.util.StringUtil;
-import com.php25.desktop.repostars.service.UserService;
+import com.php25.desktop.repostars.service.AppService;
 import com.php25.desktop.repostars.service.dto.GistDto;
 import com.php25.desktop.repostars.util.GlobalUtil;
 import com.php25.desktop.repostars.util.LocalStorage;
@@ -44,7 +44,7 @@ public class RepoDetailController extends BaseController {
     private ReposManager reposManager;
 
     @Autowired
-    private UserService userService;
+    private AppService userService;
 
     @Override
     public void start() throws Exception {

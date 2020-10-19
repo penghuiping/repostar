@@ -53,7 +53,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class UserServiceImpl implements UserService {
+public class AppServiceImpl implements AppService {
 
     @Autowired
     private UserManager userManager;
