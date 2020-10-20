@@ -23,4 +23,10 @@ public class TbReposRepositoryImpl extends BaseDbRepositoryImpl<TbRepos, Long> i
     public List<TbRepos> findAllByLogin(String login) {
         return db.cndJdbc(TbRepos.class).whereEq("login", login).select();
     }
+
+
+    @Override
+    public TbRepos findByFullName(String fullName) {
+        return db.cndJdbc(TbRepos.class, "a").whereEq("a.fullName", fullName).single();
+    }
 }

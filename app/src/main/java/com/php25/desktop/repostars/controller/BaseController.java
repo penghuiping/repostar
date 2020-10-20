@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * @author penghuiping
  * @date 2020/9/27 11:09
@@ -25,7 +27,7 @@ public abstract class BaseController implements EventHandler<MouseEvent> {
     public final void initialize() {
         try {
             this.start();
-        } catch (BusinessException | IllegalArgumentException e) {
+        } catch (BusinessException | IllegalArgumentException | IllegalStateException | TimeoutException e) {
             GlobalUtil.showErrorMsg(e.getMessage());
         } catch (Exception e) {
             log.error("出错啦", e);
@@ -36,7 +38,7 @@ public abstract class BaseController implements EventHandler<MouseEvent> {
     public final void handle(MouseEvent mouseEvent) {
         try {
             this.handleMouseEvent(mouseEvent);
-        } catch (BusinessException | IllegalArgumentException | IllegalStateException e) {
+        } catch (BusinessException | IllegalArgumentException | IllegalStateException | TimeoutException e) {
             GlobalUtil.showErrorMsg(e.getMessage());
         } catch (Exception e) {
             log.error("出错啦", e);

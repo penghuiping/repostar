@@ -18,4 +18,12 @@ public interface TbReposRepository extends BaseDbRepository<TbRepos, Long> {
      * @return 此用户所有的repos
      */
     List<TbRepos> findAllByLogin(String login);
+
+    /**
+     * 根据repos全面查询
+     *
+     * @param fullName 全面
+     * @return gist
+     */
+    TbRepos findByFullName(String fullName);
 }

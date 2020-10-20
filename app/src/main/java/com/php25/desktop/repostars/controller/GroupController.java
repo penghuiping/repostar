@@ -88,6 +88,7 @@ public class GroupController extends BaseController {
                         this.loadGroupItem();
                         setEditStatus(true);
                     }
+                    break;
                 }
                 default: {
                     break;
@@ -104,17 +105,19 @@ public class GroupController extends BaseController {
                 GlobalUtil.goNextScene("controller/group_list_controller.fxml", mouseEvent, this.applicationContext);
             } else {
                 //编辑状态
-                TextInputDialog dialog = new TextInputDialog();
-                dialog.setTitle("修改");
-                dialog.setHeaderText("请输入需要修改的组名");
-                dialog.setContentText("组名:");
-                Optional<String> result = dialog.showAndWait();
-                result.ifPresent(groupName -> {
-                    var user = localStorage.getLoginUser();
-                    userService.changeGroupName(user.getLogin(), item.getGroupId(), groupName);
-                    this.loadGroupItem();
-                    setEditStatus(true);
-                });
+                if (mouseEvent.getClickCount() == 2) {
+                    TextInputDialog dialog = new TextInputDialog();
+                    dialog.setTitle("修改");
+                    dialog.setHeaderText("请输入需要修改的组名");
+                    dialog.setContentText("组名:");
+                    Optional<String> result = dialog.showAndWait();
+                    result.ifPresent(groupName -> {
+                        var user = localStorage.getLoginUser();
+                        userService.changeGroupName(user.getLogin(), item.getGroupId(), groupName);
+                        this.loadGroupItem();
+                        setEditStatus(true);
+                    });
+                }
             }
         } else if (mouseEvent.getSource() instanceof GroupItemAdd) {
             //编辑状态新增

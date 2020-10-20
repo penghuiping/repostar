@@ -55,6 +55,8 @@ public class RepoDetailController extends BaseController {
         if (null == htmlObj || StringUtil.isBlank(htmlObj.toString())) {
             //在看本地数据库中是否存在
             GistDto tbGist = userService.findOneByFullName(title);
+
+
             if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
                 var content = tbGist.getReadme();
                 lruCache.putValue(title, content);

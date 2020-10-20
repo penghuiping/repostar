@@ -145,7 +145,6 @@ public class AppServiceImpl implements AppService {
         executorService.execute(() -> {
             syncStarRepo0(username, token);
         });
-
     }
 
     private void syncStarRepo0(String username, String token) {
@@ -335,6 +334,11 @@ public class AppServiceImpl implements AppService {
     @Override
     public GistDto findOneByFullName(String fullName) {
         var gist = tbGistRepository.findByFullName(fullName);
+        if (null == gist) {
+            var repos = tbReposRepository.findByFullName(fullName);
+            gist = new TbGist();
+            BeanUtils.copyProperties(repos, gist);
+        }
         return new GistDto.GistConverter().reverse().convert(gist);
     }
 
