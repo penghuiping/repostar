@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.Base64;
 
@@ -34,6 +35,9 @@ public class RepoDetailController extends BaseController {
     public Scene previousScene;
     public TextArea container;
 
+    //true:gist , false:repos
+    public Boolean reposOrGist = true;
+
     @Autowired
     private LruCache<String, Object> lruCache;
 
@@ -46,37 +50,65 @@ public class RepoDetailController extends BaseController {
     @Autowired
     private AppService userService;
 
+
     @Override
     public void start() throws Exception {
         backBtn.setOnMouseClicked(this);
         titleLabel.setText(title);
-        //先看lru缓存中是否存在
-        Object htmlObj = lruCache.getValue(title);
-        if (null == htmlObj || StringUtil.isBlank(htmlObj.toString())) {
-            //在看本地数据库中是否存在
-            GistDto tbGist = userService.findOneByFullName(title);
 
+        Mono.fromCallable(() -> {
+            //先看lru缓存中是否存在
+            Object htmlObj = lruCache.getValue(title);
+            if (null == htmlObj || StringUtil.isBlank(htmlObj.toString())) {
+                //在看本地数据库中是否存在
+                if (this.reposOrGist) {
+                    GistDto tbGist = userService.findOneByFullName(title);
 
-            if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
-                var content = tbGist.getReadme();
-                lruCache.putValue(title, content);
-                htmlObj = content;
-            }
+                    if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
+                        var content = tbGist.getReadme();
+                        lruCache.putValue(title, content);
+                        htmlObj = content;
+                    }
 
-            if (null == htmlObj) {
-                var user = localStorage.getLoginUser();
-                RepoReadme repoReadme = reposManager.getRepoReadme(user.getToken(), title);
-                if (null == repoReadme) {
-                    return;
+                    if (null == htmlObj) {
+                        var user = localStorage.getLoginUser();
+                        RepoReadme repoReadme = reposManager.getRepoReadme(user.getToken(), title);
+                        if (null == repoReadme) {
+                            return null;
+                        }
+                        var content = new String(Base64.getMimeDecoder().decode(repoReadme.getContent()));
+                        tbGist.setReadme(content);
+                        userService.updateGist(tbGist);
+                        htmlObj = content;
+                    }
+                } else {
+                    var tbGist = userService.findReposByFullName(title);
+                    if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
+                        var content = tbGist.getReadme();
+                        lruCache.putValue(title, content);
+                        htmlObj = content;
+                    }
+
+                    if (null == htmlObj) {
+                        var user = localStorage.getLoginUser();
+                        RepoReadme repoReadme = reposManager.getRepoReadme(user.getToken(), title);
+                        if (null == repoReadme) {
+                            return null;
+                        }
+                        var content = new String(Base64.getMimeDecoder().decode(repoReadme.getContent()));
+                        tbGist.setReadme(content);
+                        userService.updateRepos(tbGist);
+                        htmlObj = content;
+                    }
                 }
-                var content = new String(Base64.getMimeDecoder().decode(repoReadme.getContent()));
-                tbGist.setReadme(content);
-                userService.updateGist(tbGist);
-                htmlObj = content;
             }
-        }
-        String html = htmlObj.toString();
-        container.setText(html);
+            String html = htmlObj.toString();
+            return html;
+        }).subscribe(html -> {
+            container.setText(html);
+        }, throwable -> {
+            container.setText("获取仓库内容失败，请重试");
+        });
     }
 
     @Override

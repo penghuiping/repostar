@@ -334,12 +334,14 @@ public class AppServiceImpl implements AppService {
     @Override
     public GistDto findOneByFullName(String fullName) {
         var gist = tbGistRepository.findByFullName(fullName);
-        if (null == gist) {
-            var repos = tbReposRepository.findByFullName(fullName);
-            gist = new TbGist();
-            BeanUtils.copyProperties(repos, gist);
-        }
         return new GistDto.GistConverter().reverse().convert(gist);
+    }
+
+
+    @Override
+    public ReposDto findReposByFullName(String fullName) {
+        var repos = tbReposRepository.findByFullName(fullName);
+        return new ReposDto.ReposDtoConverter().reverse().convert(repos);
     }
 
     @Override
@@ -354,5 +356,13 @@ public class AppServiceImpl implements AppService {
         var gist = new GistDto.GistConverter().convert(gistDto);
         gist.setIsNew(false);
         tbGistRepository.save(gist);
+    }
+
+
+    @Override
+    public void updateRepos(ReposDto reposDto) {
+        var repos = new ReposDto.ReposDtoConverter().convert(reposDto);
+        repos.setIsNew(false);
+        tbReposRepository.save(repos);
     }
 }

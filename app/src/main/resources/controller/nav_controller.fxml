@@ -18,20 +18,26 @@
         </Button>
     </HBox>
     <VBox prefHeight="536.0" prefWidth="800.0">
-        <Button fx:id="myRepoBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
+        <Button fx:id="myRepoBtn" mnemonicParsing="false" prefHeight="100.0" prefWidth="801.0"
                 styleClass="nav_btn" stylesheets="@../css/nav_controller.css" text="我的repositories">
             <VBox.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </VBox.margin>
         </Button>
-        <Button fx:id="allStarRepoBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
+        <Button fx:id="allStarRepoBtn" mnemonicParsing="false" prefHeight="100.0" prefWidth="801.0"
                 styleClass="nav_btn" stylesheets="@../css/nav_controller.css" text="所有的star项目">
             <VBox.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </VBox.margin>
         </Button>
-        <Button fx:id="selfDefinedGroupBtn" mnemonicParsing="false" prefHeight="124.0" prefWidth="801.0"
+        <Button fx:id="selfDefinedGroupBtn" mnemonicParsing="false" prefHeight="100.0" prefWidth="801.0"
                 styleClass="nav_btn" stylesheets="@../css/nav_controller.css" text="自定义分组">
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </VBox.margin>
+        </Button>
+        <Button fx:id="refreshDataBtn" mnemonicParsing="false" prefHeight="100.0" prefWidth="801.0"
+                styleClass="nav_btn" stylesheets="@../css/nav_controller.css" text="刷新数据">
             <VBox.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
             </VBox.margin>

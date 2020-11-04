@@ -24,6 +24,8 @@ public class NavController extends BaseController {
     @FXML
     public Button selfDefinedGroupBtn;
     @FXML
+    public Button refreshDataBtn;
+    @FXML
     private Button logoutBtn;
 
     @Autowired
@@ -56,6 +58,10 @@ public class NavController extends BaseController {
             }
             case "selfDefinedGroupBtn": {
                 GlobalUtil.goNextScene("controller/group_controller.fxml", mouseEvent, this.applicationContext);
+                break;
+            }
+            case "refreshDataBtn": {
+                log.info("点击刷新数据");
                 break;
             }
             default: {

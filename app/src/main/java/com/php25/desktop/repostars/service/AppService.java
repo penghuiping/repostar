@@ -122,12 +122,20 @@ public interface AppService {
     void deleteOneGistFromGroup(Long gistId, Long groupId);
 
     /**
-     * 根据gist全面查找gist
+     * 根据全名查找gist
      *
      * @param fullName 全名
      * @return gist
      */
     GistDto findOneByFullName(String fullName);
+
+    /**
+     * 根据全名查找Repos
+     *
+     * @param fullName 全名
+     * @return repos
+     */
+    ReposDto findReposByFullName(String fullName);
 
 
     /**
@@ -143,5 +151,13 @@ public interface AppService {
      * @param gistDto
      */
     void updateGist(GistDto gistDto);
+
+
+    /**
+     * 更新repos
+     *
+     * @param reposDto
+     */
+    void updateRepos(ReposDto reposDto);
 
 }

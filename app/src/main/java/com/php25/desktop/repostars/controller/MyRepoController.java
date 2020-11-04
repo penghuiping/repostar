@@ -72,6 +72,7 @@ public class MyRepoController extends BaseController {
             var controller = this.applicationContext.getBean(RepoDetailController.class);
             controller.id = cell.id;
             controller.title = cell.titleLabel.getText();
+            controller.reposOrGist = false;
             Scene scene = GlobalUtil.goNextScene("controller/repo_detail_controller.fxml", mouseEvent, this.applicationContext);
             controller.previousScene = scene;
         }
