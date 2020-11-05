@@ -1,6 +1,6 @@
 package com.php25.desktop.repostars.controller;
 
-import com.php25.common.core.mess.LruCache;
+import com.google.common.cache.Cache;
 import com.php25.common.core.util.StringUtil;
 import com.php25.desktop.repostars.service.AppService;
 import com.php25.desktop.repostars.service.dto.GistDto;
@@ -39,7 +39,7 @@ public class RepoDetailController extends BaseController {
     public Boolean reposOrGist = true;
 
     @Autowired
-    private LruCache<String, Object> lruCache;
+    private Cache<String, Object> lruCache;
 
     @Autowired
     private LocalStorage localStorage;
@@ -58,7 +58,7 @@ public class RepoDetailController extends BaseController {
 
         Mono.fromCallable(() -> {
             //先看lru缓存中是否存在
-            Object htmlObj = lruCache.getValue(title);
+            Object htmlObj = lruCache.getIfPresent(title);
             if (null == htmlObj || StringUtil.isBlank(htmlObj.toString())) {
                 //在看本地数据库中是否存在
                 if (this.reposOrGist) {
@@ -66,7 +66,7 @@ public class RepoDetailController extends BaseController {
 
                     if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
                         var content = tbGist.getReadme();
-                        lruCache.putValue(title, content);
+                        lruCache.put(title, content);
                         htmlObj = content;
                     }
 
@@ -85,7 +85,7 @@ public class RepoDetailController extends BaseController {
                     var tbGist = userService.findReposByFullName(title);
                     if (null != tbGist && StringUtil.isNotBlank(tbGist.getReadme())) {
                         var content = tbGist.getReadme();
-                        lruCache.putValue(title, content);
+                        lruCache.put(title, content);
                         htmlObj = content;
                     }
 

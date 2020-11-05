@@ -1,8 +1,8 @@
 package com.php25.desktop.repostars.config;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.php25.common.core.mess.LruCache;
-import com.php25.common.core.mess.LruCacheImpl;
 import com.php25.desktop.repostars.util.LocalStorage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +31,8 @@ public class AppConfig {
     }
 
     @Bean
-    public LruCache<String, Object> lruCache() {
-        return new LruCacheImpl<>(1024);
+    public Cache<String, Object> lruCache() {
+        return CacheBuilder.newBuilder().maximumSize(1024).build();
     }
 
     @Bean
