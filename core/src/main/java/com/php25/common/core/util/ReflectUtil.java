@@ -13,8 +13,8 @@ import java.lang.reflect.Method;
  * @date: 2018/8/10 16:04
  */
 public abstract class ReflectUtil {
-    private static final ConcurrentReferenceHashMap<String, Field> fieldMap = new ConcurrentReferenceHashMap<>();
-    private static final ConcurrentReferenceHashMap<String, Method> methodMap = new ConcurrentReferenceHashMap<>();
+    private static final ConcurrentReferenceHashMap<String, Field> fieldMap = new ConcurrentReferenceHashMap<>(128);
+    private static final ConcurrentReferenceHashMap<String, Method> methodMap = new ConcurrentReferenceHashMap<>(128);
 
 
     public static Method getMethod(Class<?> cls, String name, Class<?>... parameterTypes) {

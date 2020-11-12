@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -141,10 +142,12 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public void syncStarRepo(String username, String token) {
-        executorService.execute(() -> {
+    public Future<Boolean> syncStarRepo(String username, String token) {
+        var task = executorService.submit(() -> {
             syncStarRepo0(username, token);
+            return true;
         });
+        return task;
     }
 
     private void syncStarRepo0(String username, String token) {
@@ -167,11 +170,13 @@ public class AppServiceImpl implements AppService {
             List<TbGist> updateList = new ArrayList<>();
 
             for (TbGist tbGist : tbGists) {
-                if (tbGistRepository.findById(tbGist.getId()).isPresent()) {
+                var tmpOptional = tbGistRepository.findById(tbGist.getId());
+                if (tmpOptional.isPresent()) {
                     //更新
-                    tbGist.setLastModifiedTime(Instant.now().toEpochMilli());
-                    tbGist.setIsNew(false);
-                    updateList.add(tbGist);
+                    var tmp = tmpOptional.get();
+                    tmp.setLastModifiedTime(Instant.now().toEpochMilli());
+                    tmp.setIsNew(false);
+                    updateList.add(tmp);
                 } else {
                     //新增
                     tbGist.setCreateTime(Instant.now().toEpochMilli());

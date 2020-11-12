@@ -8,6 +8,7 @@ import com.php25.desktop.repostars.service.dto.UserDto;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * @author penghuiping
@@ -29,7 +30,7 @@ public interface AppService {
      * @param username 用户名
      * @param token    令牌
      */
-    void syncStarRepo(String username, String token);
+    Future<Boolean> syncStarRepo(String username, String token);
 
     /**
      * 获取用户自己的repos
