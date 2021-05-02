@@ -1,8 +1,8 @@
 package com.php25.desktop.repostars.respository.entity;
 
 import com.google.common.base.Objects;
-import com.php25.common.db.cnd.annotation.Column;
-import com.php25.common.db.cnd.annotation.Table;
+import com.php25.common.db.core.annotation.Column;
+import com.php25.common.db.core.annotation.Table;
 import lombok.Getter;
 import lombok.Setter;
 

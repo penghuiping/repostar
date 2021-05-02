@@ -15,7 +15,7 @@ public class SearchParam {
     }
 
     public static SearchParam of(String fieldName, Operator operator, Object value) {
-        return new Builder().fieldName(fieldName).operator(operator).value(value).build();
+        return new SearchParam.Builder().fieldName(fieldName).operator(operator).value(value).build();
     }
 
     public String getFieldName() {

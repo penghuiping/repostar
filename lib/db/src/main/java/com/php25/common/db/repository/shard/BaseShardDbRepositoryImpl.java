@@ -1,4 +1,4 @@
-package com.php25.common.db.repository.shard;//package com.php25.common.db.repository.shard;
+//package com.php25.common.db.repository.shard;
 //
 //import com.google.common.collect.Lists;
 //import com.php25.common.db.EntitiesScan;

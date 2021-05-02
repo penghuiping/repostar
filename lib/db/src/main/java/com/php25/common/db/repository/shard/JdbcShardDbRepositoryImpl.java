@@ -1,4 +1,4 @@
-package com.php25.common.db.repository.shard;//package com.php25.common.db.repository.shard;
+//package com.php25.common.db.repository.shard;
 //
 //import com.php25.common.core.util.PageUtil;
 //import com.php25.common.db.DbType;

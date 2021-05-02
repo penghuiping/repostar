@@ -1,7 +1,7 @@
 package com.php25.desktop.repostars.respository.entity;
 
-import com.php25.common.db.cnd.annotation.Column;
-import com.php25.common.db.cnd.annotation.Table;
+import com.php25.common.db.core.annotation.Column;
+import com.php25.common.db.core.annotation.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;

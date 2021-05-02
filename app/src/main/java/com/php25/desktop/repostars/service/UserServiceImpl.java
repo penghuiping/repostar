@@ -26,6 +26,7 @@ import com.php25.github.UserManager;
 import com.php25.github.dto.Gist;
 import com.php25.github.dto.Repos;
 import com.php25.github.dto.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,37 +49,28 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserManager userManager;
+    private final UserManager userManager;
 
-    @Autowired
-    private GistManager gistManager;
+    private final GistManager gistManager;
 
-    @Autowired
-    private ReposManager reposManager;
+    private final ReposManager reposManager;
 
-    @Autowired
-    private TbUserRepository tbUserRepository;
+    private final TbUserRepository tbUserRepository;
 
-    @Autowired
-    private TbGistRepository tbGistRepository;
+    private final TbGistRepository tbGistRepository;
 
-    @Autowired
-    private TbReposRepository tbReposRepository;
+    private final TbReposRepository tbReposRepository;
 
-    @Autowired
-    private IdGenerator idGenerator;
+    private final IdGenerator idGenerator;
 
-    @Autowired
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
 
-    @Autowired
-    private TbGroupRepository tbGroupRepository;
+    private final TbGroupRepository tbGroupRepository;
 
-    @Autowired
-    private TbGistRefRepository tbGistRefRepository;
+    private final TbGistRefRepository tbGistRefRepository;
 
 
     @Override

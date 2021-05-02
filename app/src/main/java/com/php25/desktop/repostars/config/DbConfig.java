@@ -2,9 +2,8 @@ package com.php25.desktop.repostars.config;
 
 import com.php25.common.core.exception.Exceptions;
 import com.php25.common.core.mess.SnowflakeIdWorker;
-import com.php25.common.db.Db;
 import com.php25.common.db.DbType;
-import com.php25.common.db.cnd.JdbcPair;
+import com.php25.common.db.EntitiesScan;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +14,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.sqlite.SQLiteDataSource;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
@@ -71,13 +71,16 @@ public class DbConfig {
         return new TransactionTemplate(transactionManager);
     }
 
+
+    @PostConstruct
+    void init() {
+        new EntitiesScan().scanPackage("com.php25.desktop.repostars.respository.entity");
+    }
+
+
     @Bean
-    Db db(JdbcTemplate jdbcTemplate, TransactionTemplate transactionTemplate) {
-        Db db = new Db(DbType.POSTGRES);
-        JdbcPair jdbcPair = new JdbcPair(jdbcTemplate, transactionTemplate);
-        db.setJdbcPair(jdbcPair);
-        db.scanPackage("com.php25.desktop.repostars.respository.entity");
-        return db;
+    DbType dbType() {
+        return DbType.SQLITE;
     }
 
     @Bean
