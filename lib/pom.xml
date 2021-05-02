@@ -3,17 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <groupId>com.php25.desktop</groupId>
-    <artifactId>repostars</artifactId>
+    <artifactId>lib</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>repostars</name>
 
     <modules>
-        <module>common-parent</module>
-        <module>lib</module>
-        <module>domain</module>
-        <module>app</module>
+        <module>core</module>
+        <module>db</module>
     </modules>
 
     <packaging>pom</packaging>
