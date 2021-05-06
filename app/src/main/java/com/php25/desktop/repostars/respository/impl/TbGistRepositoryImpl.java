@@ -46,7 +46,7 @@ public class TbGistRepositoryImpl extends BaseDbRepositoryImpl<TbGist, Long> imp
         List<TbGist> content = QueriesExecute.of(dbType).singleJdbc().with(jdbcTemplate).select(sqlParams);
 
         SqlParams sqlParams1 = supplier.get().count();
-        var count = QueriesExecute.of(dbType).singleJdbc().with(jdbcTemplate).count(sqlParams);
+        var count = QueriesExecute.of(dbType).singleJdbc().with(jdbcTemplate).count(sqlParams1);
         var result = new DataGridPageDto<TbGist>();
         result.setData(content);
         result.setRecordsTotal(count);

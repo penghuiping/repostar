@@ -361,6 +361,7 @@ public abstract class BaseQuery extends BaseQuery0 implements Query {
         SingleSqlParams sqlParams = new SingleSqlParams();
         sqlParams.setSql(targetSql);
         sqlParams.setClazz(this.clazz);
+        sqlParams.setJoinClazz(this.joinClazz);
         sqlParams.setParams(this.getParams());
         this.clear();
         return sqlParams;
